@@ -71,14 +71,14 @@ class MyScene extends Phaser.Scene {
 					var group = this.add.group();
 					var elemIndex = Math.floor(Math.random()*elems.length);
 					var elemText = elems[elemIndex];
-					var rad = elemRads[elemIndex];
+					var rad = elemRads[elemIndex]/3;
 					
 					// create circle and text for atom
-					var circle = this.add.circle(x, y-rad/4, rad/2, 
+					var circle = this.add.circle(x, y-rad, rad, 
 						get_hex_color()).setInteractive()
 						.on('pointerdown', () => this.circleClick(group));
-					var elemStyle = { font: rad/3+"px Verdana", fill: "#FFF" }
-					var circleText = this.add.text(x-rad/6, y-rad/2, elemText, elemStyle);
+					var elemStyle = { font: rad/1.5+"px Verdana", fill: "#FFF" }
+					var circleText = this.add.text(x-rad/3, y-rad*1.5, elemText, elemStyle);
 					
 					group.add(circle);
 					group.add(circleText);
