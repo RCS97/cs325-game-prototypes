@@ -11,6 +11,11 @@ var isRunning = 0;
 var circlesClicked = 0;
 var time;
 var score;
+var elems = ["He", "Ne", "C", "Ag", "Xe", "Au", "Na", "Si", "P", "Cl", "Ar",
+	"Br", "I", "Pb", "Rn", "U", "Li", "Mg", "Al"];
+var elemRads = [31, 38, 67, 165, 108, 174, 190, 111, 98, 79, 71,
+	94, 115, 154, 120, 175, 167, 145, 118];
+var textStyle;
 
 
 
@@ -35,7 +40,7 @@ class MyScene extends Phaser.Scene {
 		// UI bar
 		this.add.rectangle(400, 600, 800, 100, 0x000);
 
-		let textStyle = { font: "20px Verdana", fill: "#FFF", background: "#435543"};
+		textStyle = { font: "20px Verdana", fill: "#FFF" };
 		const startBut = this.add.text(50, 560, 'Start', textStyle)
 			.setInteractive()
 			.on('pointerdown', () => this.startButton() );
@@ -61,11 +66,23 @@ class MyScene extends Phaser.Scene {
 				// increment time
 				time.setText(curTime+1);
 
-				if(curTime%20==0)
+				if(curTime%30==0) {
 					// add circle at certain times
-					var circle = this.add.circle(x, y, 50, get_hex_color())
-						.setInteractive()
-						.on('pointerdown', () => this.circleClick(circle));
+					var group = this.add.group();
+					var elemIndex = Math.floor(Math.random()*elems.length);
+					var elemText = elems[elemIndex];
+					var rad = elemRads[elemIndex];
+					
+					// create circle and text for atom
+					var circle = this.add.circle(x, y-rad/4, rad/2, 
+						get_hex_color()).setInteractive()
+						.on('pointerdown', () => this.circleClick(group));
+					var elemStyle = { font: rad/3+"px Verdana", fill: "#FFF" }
+					var circleText = this.add.text(x-rad/6, y-rad/2, elemText, elemStyle);
+					
+					group.add(circle);
+					group.add(circleText);
+				}
 			}
 			else {
 				// max time reached
@@ -91,11 +108,11 @@ class MyScene extends Phaser.Scene {
 		this.scene.restart();
 	}
 
-	// increment score if game is running
-	circleClick(circle) {
+	// increment score if game is running, remove atom/group
+	circleClick(elemGroup) {
 		if(isRunning) {
 			score.setText(parseInt(score.text.toString())+1);
-			circle.destroy();
+			elemGroup.clear(true, true);
 		}
 	}
 
