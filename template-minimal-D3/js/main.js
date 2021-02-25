@@ -115,6 +115,11 @@ class MyScene extends Phaser.Scene {
 						this.boatHit(enemies[i]);
 				}
 				
+				for(var i=0; i<balls.length; i++) {
+					if(balls[i].y>=550) 
+						this.removeBall(balls[i]);
+				}
+				
 				// spawn enemy ship
 				if(curTime % 300 == 0 && enemies.length<=20)
 					this.spawnShip();
@@ -168,7 +173,7 @@ class MyScene extends Phaser.Scene {
 		let v = 200;
 	
 		
-		if((curTime - lastShot >= 50 || curTime==0)) {
+		if((curTime - lastShot >= 150 || curTime==0)) {
 			let ball = this.physics.add.sprite(x, y, 'ball');
 			//ball.setScale(0.16);
 			//ball.setScale(0.01);
@@ -176,7 +181,6 @@ class MyScene extends Phaser.Scene {
 			ball.body.velocity.x = Math.cos(angle)*v;
 			ball.body.velocity.y = Math.sin(angle)*v;
 			ball.body.acceleration.y = 150;
-			//balls.push(ball);
 			
 			ball.body.setSize(ball.width, ball.height, 800,600);
 			//ball.body.setBoundsRectangle(new Phaser.Geom.Rectangle(20,20, x,y));
@@ -193,6 +197,7 @@ class MyScene extends Phaser.Scene {
 					this.enemyHit(enemies[i], ball), null, this);
 			}
 			
+			balls.push(ball);
 			lastShot = curTime;
 		}
 	}
