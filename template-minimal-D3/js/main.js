@@ -113,6 +113,8 @@ class MyScene extends Phaser.Scene {
 				for(var i=0; i<enemies.length; i++) {
 					if(enemies[i].x<=200) 
 						this.boatHit(enemies[i]);
+					if(enemies[i].y>=500)
+						this.removeEnemy(enemies[i]);
 				}
 				
 				for(var i=0; i<balls.length; i++) {
@@ -270,9 +272,9 @@ class MyScene extends Phaser.Scene {
 		let d = Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
 		//let d = this.distanceBetween(ship,ball);
 		
-		console.log(d);
+		/*console.log(d);
 		console.log(dx);
-		console.log(dy);
+		console.log(dy);*/
 		
 		if(Math.abs(d) <= 200) {
 			console.log("Enemy hit");
