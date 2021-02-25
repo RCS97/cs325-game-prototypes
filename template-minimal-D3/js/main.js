@@ -34,15 +34,18 @@ class MyScene extends Phaser.Scene {
     preload() {
 		// images
 		this.load.image( 'background', 'assets/sky.png' );
-		this.load.image( 'ball', 'assets/ball_cropped.png' );
 		this.load.image( 'barrel', 'assets/barrel_rotated.png' );
 		this.load.image( 'boat', 'assets/boat_flipped.png' );
 		this.load.image( 'triangle', 'assets/triangle.png' );
 		this.load.image( 'water', 'assets/water.png' );
 		this.load.image( 'line', 'assets/line.png' );
 		
-		this.load.image( 'ship', 'assets/ship_flipped_cropped.png' );
-		//this.load.image( 'ship', 'assets/ship.png' );
+		
+		//this.load.image( 'ball', 'assets/ball_cropped.png' );
+		this.load.image( 'ball', 'assets/ball_small.png' );
+		
+		this.load.image( 'ship', 'assets/ship_small.png' );
+		//this.load.image( 'ship', 'assets/ship_flipped.png' );
     }
     
     create() {
@@ -96,40 +99,6 @@ class MyScene extends Phaser.Scene {
 		health.setText(curHealth);
 		//console.log(curTime);
 
-		/*for(var i=0; i<balls.length; i++) {
-			if (typeof balls[i]=='undefined' ||
-					balls[i]==null) {
-					console.log("Invalid object");
-					this.removeBall(balls[i]);
-					continue;
-			}
-			
-			for(var j=0; i<enemies.length; j++) {
-				if (typeof enemies[j]=='undefined' ||
-					enemies[j]==null) {
-					console.log("Invalid object");
-					this.removeEnemy(enemies[j]);
-					continue;
-				}
-				
-				if(balls[i].y >= 600) {
-					this.removeBall(balls[i]);
-					break;
-				}
-				
-				let dx = balls[i].x - enemies[j].x;
-				let dy = balls[i].y - enemies[j].y;
-				let d = Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
-				
-				// check if close enough for hit
-				if(d <=20) {
-					this.enemyHit(enemies[j], balls[i]);
-					break;
-				}
-			}
-		}*/
-
-
 		// check if running
 		if(isRunning) {
 			// check if health remains
@@ -138,11 +107,16 @@ class MyScene extends Phaser.Scene {
 				time.setText((curTime+1)/100);
 				
 				// check if boat hit by closest enemy
-				if(enemies.length>0 && enemies[0].x<=200) 
-					this.boatHit(enemies[0]);
+				/*if(enemies.length>0 && enemies[0].x<=200) 
+					this.boatHit(enemies[0]);*/
+				
+				for(var i=0; i<enemies.length; i++) {
+					if(enemies[i].x<=200) 
+						this.boatHit(enemies[i]);
+				}
 				
 				// spawn enemy ship
-				if(curTime % 500 == 0)
+				if(curTime % 300 == 0 && enemies.length<=20)
 					this.spawnShip();
 				
 				// update cannon angle
@@ -168,13 +142,18 @@ class MyScene extends Phaser.Scene {
 		isRunning = 1;
 		time.setText("0");
 		health.setText("1000");
+		curHealth = 1000;
+		curTime = 0;
+		lastShot = 0;
 	}
 
 	// reset scene
 	stopButton() {
 		console.log('Stopped');
 		isRunning = 0;	
-		health = 1000;
+		curHealth = 1000;
+		curTime = 0;
+		lastShot = 0;
 		this.scene.restart();
 	}
 	
@@ -191,7 +170,7 @@ class MyScene extends Phaser.Scene {
 		
 		if((curTime - lastShot >= 50 || curTime==0)) {
 			let ball = this.physics.add.sprite(x, y, 'ball');
-			ball.setScale(0.16);
+			//ball.setScale(0.16);
 			//ball.setScale(0.01);
 			
 			ball.body.velocity.x = Math.cos(angle)*v;
@@ -199,15 +178,18 @@ class MyScene extends Phaser.Scene {
 			ball.body.acceleration.y = 150;
 			//balls.push(ball);
 			
-			//ball.body.setSize(ball.width, ball.height, true);
-			ball.body.setBoundsRectangle(new Phaser.Geom.Rectangle(20,20, x,y));
+			ball.body.setSize(ball.width, ball.height, 800,600);
+			//ball.body.setBoundsRectangle(new Phaser.Geom.Rectangle(20,20, x,y));
 			//ball.body.setSize(5,5, x,y);
+			//ball.body.setOffset(800,600);
 			
-			ball.body.width = 5;
-			ball.body.height = 5;
+			//ball.body.width = 5;
+			//ball.body.height = 5;
+			
+			//ball.refreshBody();
 			
 			for (var i = 0; i < enemies.length; i++) {
-				this.physics.add.collider(enemies[i], ball, 
+				this.physics.add.collider(ball, enemies[i], 
 					this.enemyHit(enemies[i], ball), null, this);
 			}
 			
@@ -237,17 +219,26 @@ class MyScene extends Phaser.Scene {
 		let y = Math.floor(Math.random() * (maxY - minY) + minY);
 		let ship = this.physics.add.sprite(900, y, 'ship');
 		
-		ship.setScale(0.3);
+		ship.body.velocity.x = -150;
+		
+		ship.body.collideWorldBounds = true;
+		ship.body.checkCollision.up = false;
+		ship.body.checkCollision.down = false;
+		ship.body.bounce.set(1);
+		
+		//ship.setScale(0.3);
 		//ship.setScale(0.05);
 		
-		//ship.body.setSize(ship.width, ship.height, true);
-		ship.body.setBoundsRectangle(new Phaser.Geom.Rectangle(20,20, 900,y));
+		ship.body.setSize(ship.width, ship.height, 800,0);
+		//ship.body.setBoundsRectangle(new Phaser.Geom.Rectangle(20,20, 900,y));
 		//ship.body.setSize(5,5, 900,y);
-		ship.body.width = 5;
-		ship.body.height = 5;
+		//ship.body.width = 5;
+		//ship.body.height = 5;
+		//ship.body.setOffset(800,0);
+		
+		//ship.refreshBody();
 		
 		
-		ship.body.velocity.x = -75;
 		//this.physics.add.collider(ship, boat, this.boatHit(ship), null, this);
 		enemies.push(ship);
 	}
@@ -268,10 +259,24 @@ class MyScene extends Phaser.Scene {
 	
 	// enemy hit by cannonball
 	enemyHit(ship, ball) {
-		console.log("Enemy hit");
+		//console.log("Enemy hit");
+		let dx = ball.x - ship.x;
+		let dy = ball.y - ship.y;
+		let d = Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
+		//let d = this.distanceBetween(ship,ball);
 		
-		this.removeBall(ball);
-		this.removeEnemy(ship);
+		console.log(d);
+		console.log(dx);
+		console.log(dy);
+		
+		if(Math.abs(d) <= 200) {
+			console.log("Enemy hit");
+			this.removeBall(ball);
+			this.removeEnemy(ship);
+		}
+		else {
+			console.log("Too far");
+		}
 	}
 	
 	// remove ball
@@ -306,7 +311,7 @@ const game = new Phaser.Game({
     width: 800,
     height: 600,
     scene: MyScene,
-    physics: { default: 'arcade'},
+    physics: { default: 'arcade' },
     });
 
 

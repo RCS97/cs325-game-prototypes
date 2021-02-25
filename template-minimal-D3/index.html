@@ -24,30 +24,40 @@ body
 <ul>
 <li><strong>Originality:</strong>
 <i>What is original about your game?
-</i> I think that the aim and kick system is somewhat unique. The two defenders also add for an interesting challenge. 
+</i> I think that the theme and goal of game are somewhat unique.
 </li>
 
 <li><strong>Technical Merit:</strong>
 <i>What is interesting about your game technology?</i> 
-I had to handle various collisions. The net also needed a unique hitbox, since goals can only be scored from the front. The game also has a basic timer and three moving objects.
+I had to handle various collisions and setup projectile motion.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
 <i>What did you learn from this prototype?</i> 
-I learned how to handle object collisions and create moving objects.
+I learned how to implement projectiles.
 <i>What was the easiest or hardest part of making it?</i> 
-I had some difficulty figuring out how to implement various collisions.
+I had some difficulty figuring out how to implement various collisions. There is still an issue with the cannonball and enemy ship collision.
 </li>
 
 <li><strong>Prototype Assets:</strong>
 <i>Did you make your prototype assets from scratch? Did you borrow them? Cite your sources here.</i> 
 I used various images from Google.
 <ul>
-<li>Net Link: <a href="https://www.pngjoy.com/preview/i4j4o9f5e2c0b4_soccer-net-football-transparent-png/">Net</a></li>
-<li>Ball Link: <a href="https://clubpenguin.fandom.com/wiki/Multi-Ball">Ball</a></li>
-<li>Arrow Link: <a href="https://freepngimg.com/png/24684-right-arrow-transparent-picture">Arrow</a></li>
-<li>Person Link: <a href="https://3dgold.wordpress.com/free-stuff/">Person</a></li>
-<li>Grass Link: <a href="https://www.dreamstime.com/photos-images/birds-eye-view-grass.html">Grass</a></li>
+
+<li>Barrel link: <a href="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/8caea392-65fa-4309-981c-2cfd33d8b111/daoldai-1faf0adb-bc55-4afd-b1a3-2a25fc3e5d4d.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvOGNhZWEzOTItNjVmYS00MzA5LTk4MWMtMmNmZDMzZDhiMTExXC9kYW9sZGFpLTFmYWYwYWRiLWJjNTUtNGFmZC1iMWEzLTJhMjVmYzNlNWQ0ZC5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.MBbA7tx5pJZBJxQArFPx0HTWbykCT5ATyWS7BRVeFqY">Barrel</a></li>
+
+<li>Cannonball link: <a href="https://www.ioscreator.com/s/ball2x.png">Ball</a></li>
+
+<li>Water Link: <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKbYJk4oBQInZRP0c1d-CGgGQBG1Qw_UXWGw&usqp=CAU">Water</a></li>
+
+<li>Sky Link: <a href="https://wallpaperaccess.com/full/164553.png">Sky</a></li>
+
+<li>Triangle Link: <a href="https://www.freeiconspng.com/thumbs/triangle-png/triangle-png-28.png">Triangle</a></li>
+
+<li>Boat 1 Link: <a href="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/87dbe52b-49e6-4722-8f7a-18c565a82844/ddhkdla-303bfdbb-7eb4-48bc-b70b-d162b2eec8bb.png/v1/fill/w_400,h_311,strp/pirate_boat___game_asset_by_panddy_ddhkdla-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD0zMTEiLCJwYXRoIjoiXC9mXC84N2RiZTUyYi00OWU2LTQ3MjItOGY3YS0xOGM1NjVhODI4NDRcL2RkaGtkbGEtMzAzYmZkYmItN2ViNC00OGJjLWI3MGItZDE2MmIyZWVjOGJiLnBuZyIsIndpZHRoIjoiPD00MDAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.AcWaf4NzX6S0ZQNXOI7c9Tpz-wcyUThlER2wX5Dq3Eo">Boat 1</a></li>
+
+<li>Boat 2 Link: <a href="https://lh3.googleusercontent.com/proxy/GN7fs7zZQSdecHtoVM7ZFtV6VCpQs4wUUMNeoqiewtjp-576x-CoKwJq6F6XxUH_2o9oDR7O0ZB7gqnQQkiJ89upMphBtdH2Oms_yFjZt0jbCJT4vCZZ9brNszvoyfD8o-zCeJctpH0LlX96I7j4m7ny-EAcMTnrXms">Boat 2</a></li>
+
 </ul>
 </li>
 
@@ -58,21 +68,21 @@ I did not borrow code, but there are definitely similar games out there.
 
 <li><strong>High Concept:</strong>
 <i>A one-sentence summary of your game.</i> 
-Score as many goals as you can before the time expires.
+Withstand enemy ships for as long as possible with your canoon.
 </li>
 
 <li><strong>Theme:</strong>
 <i>State which of the Storymatic themes you used.</i> 
-I used the challenge that the game takes 20 seconds to play.
+I used the pirate theme.
 </li>
 
 <li><strong>Mandated Variety:</strong>
-<i>State which input, randomness, genre, and play style you used in this prototype.</i> The input is the keyboard. There is no randomness. The genre is kind of like a shooter (shooting ball at net). The playstyle would be Performer.
+<i>State which input, randomness, genre, and play style you used in this prototype.</i> The input is the mouse and space key. There is some randomness in the enemy ship spawns. The genre is kind of like a fighter (fighting off enemy ships). The playstyle would be Achiever.
 </li>
 
 <li><strong>Prototype Goal:</strong>
 <i>What game mechanic is this prototype evaluating?</i> 
-This game shows object collisions and movements.
+This game shows object collisions and projectile motion.
 </li>
 
 <li><strong>Player Experience Goals:</strong>
@@ -82,29 +92,29 @@ Intense, competitive, fun, replayable.
 
 <li><strong>Gameplay:</strong>
 <i>A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.</i>
-The player can start or stop/reset the game. Once started, they can aim with the arrow keys (left/right) and kick with the spacebar. Each kick results in a new direction with a guaranteed minimum velocity. Incremental kicks will add to velocity magnitude. To score, the ball must contact the front of net. The ball will reset upon a goal or contact with defenders bounce off walls. A goal counter will be kept, and the player should try to maximize it before time expires. 
+The player can start or stop/reset the game. Once started, they can aim with the mouse and shoot with the spacebar. The player should aim the cannoballs at the incoming enemy ships. If the cannonball hits the ships, they will get sent back or disappear, otherwise they will reduce the player's health. A timer is kept and the player should stay alive as long as possible.
 </li>
 
 <li><strong>Strategies:</strong>
 <i>What player strategies do you expect will be effective at playing this game?</i>
-Being able to click fast will help, as the more kicks, the faster the ball speed. Timing will also be crucial, as the player must avoid the two defenders. Ideally, the player will master aiming the ball and be able to quickly aim each kick to avoid defenders while also kicking as fast as they can.
+Being able to click fast will help, as the more shots, the more likely to hit the enemies. Also, being able to judge the projectiles will help.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
 <i>A paragraph about the world your game is set in and who the characters are. What makes the game world and its occupants unique and interesting? Do the tokens represent something? If the game has a backstory, mention it here. If the game is abstract, then say so.</i>
-The world is simply a grassy field with a net, defenders, and a soccer ball. There is not much of a backstory, just a few people playing soccer I suppose. 
+The world contains a battle between enemy pirates. 
 <i>How will the dramatic tension interact with the gameplay tension?</i>
-I wouldn't say there's much dramatic tension, but as the time approaches the max, tension should rise.
+I wouldn't say there's much dramatic tension, but as health diminshes, tension should rise.
 </li> 
 
 <li><strong>Target Audience:</strong>
 <i>A single sentence that describes the demographic you're trying to reach.</i>
- This game could attract competitors or soccer fans.
+ This game could attract competitors or fans of pirate themes.
 </li> 
 
 <li><strong>Play Time:</strong>
 <i>How long does your game take to play?</i> 
-The game takes 20 seconds to play. It is a replayable high-score game.
+The game has no max time limit, but likely a few minutes.
 </li>
 
 </ul>
