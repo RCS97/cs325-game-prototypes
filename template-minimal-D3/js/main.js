@@ -95,12 +95,11 @@ class MyScene extends Phaser.Scene {
     }
     
     update() {
-		curTime++;
-		health.setText(curHealth);
 		//console.log(curTime);
 
 		// check if running
 		if(isRunning) {
+			curTime++;
 			// check if health remains
 			if(curHealth > 0) {
 				// increment time
@@ -145,13 +144,13 @@ class MyScene extends Phaser.Scene {
 	// reset scene, then start timer and set to running
 	startButton() {
 		console.log("Game started");
-		this.scene.restart();
 		isRunning = 1;
 		time.setText("0");
 		health.setText("1000");
 		curHealth = 1000;
 		curTime = 0;
 		lastShot = 0;
+		this.scene.restart();
 	}
 
 	// reset scene
@@ -261,6 +260,7 @@ class MyScene extends Phaser.Scene {
 			enemies.splice(index, 1);
 		}
 		
+		health.setText(curHealth);
 		ship.destroy();
 	}
 	
