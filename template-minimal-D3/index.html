@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello! Amaze!</title>
+<style>
+body
+{
+    color: #777;
+    font-family: "Avenir", Verdana, sans-serif;
+}
+#readme
+{
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+<div id="game"></div>
+<div id="readme">
+<h2>Pirate Defense</h2>
+
+<ul>
+<li><strong>Originality:</strong>
+<i>What is original about your game?
+</i> I think that the aim and kick system is somewhat unique. The two defenders also add for an interesting challenge. 
+</li>
+
+<li><strong>Technical Merit:</strong>
+<i>What is interesting about your game technology?</i> 
+I had to handle various collisions. The net also needed a unique hitbox, since goals can only be scored from the front. The game also has a basic timer and three moving objects.
+</li>
+
+<li><strong>Prototype Postmortem:</strong>
+<i>What did you learn from this prototype?</i> 
+I learned how to handle object collisions and create moving objects.
+<i>What was the easiest or hardest part of making it?</i> 
+I had some difficulty figuring out how to implement various collisions.
+</li>
+
+<li><strong>Prototype Assets:</strong>
+<i>Did you make your prototype assets from scratch? Did you borrow them? Cite your sources here.</i> 
+I used various images from Google.
+<ul>
+<li>Net Link: <a href="https://www.pngjoy.com/preview/i4j4o9f5e2c0b4_soccer-net-football-transparent-png/">Net</a></li>
+<li>Ball Link: <a href="https://clubpenguin.fandom.com/wiki/Multi-Ball">Ball</a></li>
+<li>Arrow Link: <a href="https://freepngimg.com/png/24684-right-arrow-transparent-picture">Arrow</a></li>
+<li>Person Link: <a href="https://3dgold.wordpress.com/free-stuff/">Person</a></li>
+<li>Grass Link: <a href="https://www.dreamstime.com/photos-images/birds-eye-view-grass.html">Grass</a></li>
+</ul>
+</li>
+
+<li><strong>Prototype Closest Other Game:</strong>
+<i>Which other game most closely resembles your game? If you are borrowing code from a Phaser Example, you must say so here. If you borrow code from elsewhere, you must say so here.</i> 
+I did not borrow code, but there are definitely similar games out there.
+</li>
+
+<li><strong>High Concept:</strong>
+<i>A one-sentence summary of your game.</i> 
+Score as many goals as you can before the time expires.
+</li>
+
+<li><strong>Theme:</strong>
+<i>State which of the Storymatic themes you used.</i> 
+I used the challenge that the game takes 20 seconds to play.
+</li>
+
+<li><strong>Mandated Variety:</strong>
+<i>State which input, randomness, genre, and play style you used in this prototype.</i> The input is the keyboard. There is no randomness. The genre is kind of like a shooter (shooting ball at net). The playstyle would be Performer.
+</li>
+
+<li><strong>Prototype Goal:</strong>
+<i>What game mechanic is this prototype evaluating?</i> 
+This game shows object collisions and movements.
+</li>
+
+<li><strong>Player Experience Goals:</strong>
+<i>What experience do you want players to have when playing your game?</i> 
+Intense, competitive, fun, replayable.
+</li>
+
+<li><strong>Gameplay:</strong>
+<i>A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.</i>
+The player can start or stop/reset the game. Once started, they can aim with the arrow keys (left/right) and kick with the spacebar. Each kick results in a new direction with a guaranteed minimum velocity. Incremental kicks will add to velocity magnitude. To score, the ball must contact the front of net. The ball will reset upon a goal or contact with defenders bounce off walls. A goal counter will be kept, and the player should try to maximize it before time expires. 
+</li>
+
+<li><strong>Strategies:</strong>
+<i>What player strategies do you expect will be effective at playing this game?</i>
+Being able to click fast will help, as the more kicks, the faster the ball speed. Timing will also be crucial, as the player must avoid the two defenders. Ideally, the player will master aiming the ball and be able to quickly aim each kick to avoid defenders while also kicking as fast as they can.
+</li>
+
+<li><strong>Story/Setting/Premise:</strong>
+<i>A paragraph about the world your game is set in and who the characters are. What makes the game world and its occupants unique and interesting? Do the tokens represent something? If the game has a backstory, mention it here. If the game is abstract, then say so.</i>
+The world is simply a grassy field with a net, defenders, and a soccer ball. There is not much of a backstory, just a few people playing soccer I suppose. 
+<i>How will the dramatic tension interact with the gameplay tension?</i>
+I wouldn't say there's much dramatic tension, but as the time approaches the max, tension should rise.
+</li> 
+
+<li><strong>Target Audience:</strong>
+<i>A single sentence that describes the demographic you're trying to reach.</i>
+ This game could attract competitors or soccer fans.
+</li> 
+
+<li><strong>Play Time:</strong>
+<i>How long does your game take to play?</i> 
+The game takes 20 seconds to play. It is a replayable high-score game.
+</li>
+
+</ul>
+</div>
+
+<!-- main.js must come at the end since it expects the HTML to have been created. -->
+<script src="js/main.js" type="module"></script>
+</body>
+</html>
