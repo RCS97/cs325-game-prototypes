@@ -1,0 +1,25 @@
+
+// images
+
+hotel
+https://media.istockphoto.com/photos/3d-render-of-luxury-hotel-lobby-and-reception-picture-id1075994138?k=6&m=1075994138&s=612x612&w=0&h=Prv99S7081vCdXhYFsTzoH0ObleXFnG7HshHaeQdL70=
+
+people
+https://lh4.googleusercontent.com/proxy/xVwOWhlRe1Cgybco6zj0_goLCH73rN--_N06HPyK-kId7sCPNn2VIr6mT-NY0nHYENX8Lx-hZn9eEAeGoEZqa8bLpsbnbIB-R-U38DXY_cyb6I25S22U-UmiksvYIaM3ZRS9D0z_Qjd-XPYAAwpR5zjGoNQTXmeV8Hel8UXVtbYw_f0h=s0-d
+
+water
+https://lh3.googleusercontent.com/proxy/EPmnwTtRPzd34ELDVqW46xHNFdmsX4caADd3PC3zV4tT0IiJOCQPv-lVMASfUaDQ5eLi5lG4yvrsp9ykqEsRpaJgofP_7rhM0-lh7AL4QaCp6D2E1pDRunZXyE1I5g
+
+towel
+https://www.pinclipart.com/picdir/middle/80-801622_clip-art-beach-towel-png-download.png
+
+food
+https://lh3.googleusercontent.com/proxy/jTLiMUuFaT2GtaIExKr2wLyJpyJt4bLsL8cx3k0ucrfbSieiZer_C4xGijxwy51bwh36e2AW8zFJ4dQu6ZyhF3GA
+
+question
+https://www.pinclipart.com/picdir/big/62-620375_question-mark-clip-art-green-question-mark-transparent.png
+
+
+
+
+
