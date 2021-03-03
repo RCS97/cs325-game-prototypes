@@ -7,17 +7,30 @@
 import "./phaser.js";
 
 var isRunning = 0;
+
 var time;
 var curTime = 0;
+
 var health;
-var textStyle;
-var instr1;
-var instr2;
 var startHealth = 5;
 var curHealth = 5;
+
+var score;
+var curScore = 0;
+
+var textStyle;
+var textStyle2;
+var headerStyle;
+var instr1;
+var instr2;
+
 var people = ['guy','girl'];
 var items = ['towel','water','food'];
-var waitTime = 1500;
+var waitTime = 3000;	// longer = will wait more time before report
+var spawnRate = 300;	// lower = faster
+
+var winWidth = 800;
+var winHeight = 600;
 
 
 class MyScene extends Phaser.Scene {
@@ -36,15 +49,19 @@ class MyScene extends Phaser.Scene {
 		this.load.image( 'water', 'assets/water.png' );
 		this.load.image( 'food', 'assets/food.png' );
 		this.load.image( 'question', 'assets/question.png' );
+		this.load.image( 'fired', 'assets/fired.png' );
+		this.load.image( 'hourglass', 'assets/hourglass.png' );
     }
     
     create() {
 		// add background
 		var windowWidth = window.innerWidth;
 		var windowHeight = window.innerHeight;
-		this.bg = this.add.image(windowWidth/2-35, windowHeight/2-100, 'background');
+		//this.bg = this.add.image(windowWidth/2, windowHeight/2, 'background');
+		this.bg = this.add.image(400, 250, 'background');
+		//this.bg = this.add.image(windowWidth/2, windowHeight/2, 'background');
 		//this.bg.setDisplaySize(windowWidth, windowHeight);
-		this.bg.setScale(1.5);
+		this.bg.setScale(1.6);
 		/*let bgHeight = windowWidth;
 		let bgWidth = (382/612)*bgHeight;
 		this.bg.setDisplaySize(bgWidth, bgHeight);*/
@@ -89,18 +106,33 @@ class MyScene extends Phaser.Scene {
 		
 		// UI
 		this.add.rectangle(400, 600, 800, 100, 0x000);
+		this.add.rectangle(400, 550, 800, 2, 0xFFFFFF);
 
+		// text styles
 		textStyle = { font: "20px Verdana", fill: "#FFF" };
-		let textStyle2 = { font: "20px Verdana", fill: "#000" };
+		textStyle2 = { font: "20px Verdana", fill: "#000" };
+		headerStyle = { font: "10px Verdana", fill: "#00CC00" };
+		
 		const startBut = this.add.text(50, 560, 'Start', textStyle)
 			.setInteractive()
 			.on('pointerdown', () => this.startButton() );
 		const stopBut = this.add.text(150, 560, 'Stop', textStyle)
 			.setInteractive()
 			.on('pointerdown', () => this.stopButton() );
-			
-		time = this.add.text(250, 560, "0", textStyle);
-		health = this.add.text(380, 560, startHealth.toString(), textStyle);
+		
+		// UI value text
+		let heightUI = 568;
+		time = this.add.text(250, heightUI, "0", textStyle);
+		health = this.add.text(380, heightUI, startHealth.toString(), textStyle);
+		score = this.add.text(510, heightUI, "0", textStyle);
+		
+		// UI header/type text
+		let heightHeader = 555;
+		let timeHeader = this.add.text(250, heightHeader, "TIME", headerStyle);
+		let healthHeader = this.add.text(380, heightHeader, 
+			"HEALTH", headerStyle);
+		let scoreHeader = this.add.text(510, heightHeader, 
+			"SCORE", headerStyle);
 		
 		instr1 = this.add.text(20, 10, "Collect/give items with collision", textStyle2);
 		instr2 = this.add.text(20, 40, "Arrows to move", textStyle2);
@@ -123,7 +155,11 @@ class MyScene extends Phaser.Scene {
 				
 				// check if customer has waited too long
 				for(var i=0; i<this.curCustomers.length; i++) {
-					if(curTime - this.curCustomers[i].timeSpawned > waitTime) {
+					let curCust = this.curCustomers[i];
+					let activeTime = curTime - curCust.timeSpawned;
+					
+					if(activeTime > curCust.wait) {
+						// customer waited too long
 						console.log("Customer waited too long");
 						
 						let cust = this.curCustomers[i];
@@ -133,13 +169,17 @@ class MyScene extends Phaser.Scene {
 						
 						this.decreaseHealth();
 					}
-					else {
-						//console.log(curTime - this.curCustomers[i].timeSpawned);
+					else if(activeTime > curCust.wait*0.75) {
+						// indicate customer about to expire
+						//curCust.customer.tint = 0x0000FF;
+						let hourglass = this.physics.add.sprite(0,-70, 'hourglass');
+						hourglass.setScale(0.03);
+						curCust.container.add(hourglass);
 					}
 				}
 				
 				// check if time to spawn new customer
-				if(curTime % 400 == 0) {
+				if(curTime % spawnRate == 0) {
 					this.spawnCustomer();
 				}
 				
@@ -156,7 +196,7 @@ class MyScene extends Phaser.Scene {
 					this.worker.body.velocity.x = 0;
 				}
 				// vertical movement
-				if (this.cursors.up.isDown && this.worker.y>250) {
+				if (this.cursors.up.isDown && this.worker.y>240) {
 					this.worker.body.velocity.y = -v;
 				}
 				else if (this.cursors.down.isDown) {
@@ -169,6 +209,7 @@ class MyScene extends Phaser.Scene {
 			else {
 				// health depleted
 				isRunning = 0;
+				this.playerLost();
 			}
 		}
 
@@ -178,15 +219,18 @@ class MyScene extends Phaser.Scene {
 	startButton() {
 		console.log("Game started");
 		isRunning = 1;
-		time.setText("0");
-		health.setText(startHealth.toString());
-		curHealth = startHealth;
+		
 		curTime = 0;
+		curHealth = startHealth;
+		curScore = 0;
+		
+		time.setText(curTime.toString());
+		health.setText(startHealth.toString());
+		score.setText(curScore.toString());
 		
 		this.curItem.setTexture('question');
 		this.curItemName = 'question';
 		this.curCustomers = [];
-		this.leavingCustomers = [];
 		
 		this.scene.restart();
 	}
@@ -225,12 +269,14 @@ class MyScene extends Phaser.Scene {
 	spawnCustomer() {
 		console.log('Customer spawned');
 		// random attributes
+		let isAngry = Math.floor(Math.random() * 5) === 0;	// 20% chance of angry
+		
 		let personIdx = Math.floor(Math.random() * (people.length));
 		let itemIdx = Math.floor(Math.random() * (items.length));
-		let v = Math.floor(Math.random() * 100);
+		let v = Math.floor(Math.random() * 100) + 50;
 		let xDecide = Math.floor(Math.random() * 2);
 		let x = xDecide==0 ? 750 : 50;
-		let y = Math.floor(Math.random() * 250) + 250;
+		let y = Math.floor(Math.random() * 250) + 240;
 		let dir = Math.floor(Math.random() * 2);
 		
 		let cust = this.physics.add.sprite(0,0, people[personIdx]);
@@ -253,12 +299,20 @@ class MyScene extends Phaser.Scene {
 		custContainer.body.setSize(5,5);
 		//custContainer.body.setOffset(400, 0);
 		
+		// modify customer properties if angry
+		let custWait = waitTime;
+		if(isAngry) {
+			custWait /= 2;			// less wait time
+			cust.tint = 0xee0000	// tinted red
+		}
+		
 		var customerGroup = {
 			timeSpawned: curTime,
 			container: custContainer,
 			customer: cust,
 			itemName: items[itemIdx],
-			item: custItem
+			item: custItem,
+			wait: custWait
 		};
 		
 		this.physics.add.overlap(this.worker, custContainer, 
@@ -274,6 +328,9 @@ class MyScene extends Phaser.Scene {
 		// check if worker has item customer needs
 		if(itemName === this.curItemName) {
 			console.log("Customer received item: "+itemName+" "+this.curItemName);
+			
+			curScore+=1;
+			score.setText(curScore.toString());
 			
 			// search for customer in customer array
 			let index = -1;
@@ -295,7 +352,12 @@ class MyScene extends Phaser.Scene {
 	
 	decreaseHealth() {
 		curHealth--;
-		health.setText(curHealth.toString());
+		let healthVal = Math.max(curHealth,0);
+		health.setText(healthVal.toString());
+	}
+	
+	playerLost() {
+		let fired = this.add.image(400, 150, 'fired');
 	}
 	
 }
