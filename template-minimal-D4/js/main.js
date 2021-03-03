@@ -1,6 +1,7 @@
 
 /*
- * CS 325 - Digital Assignment 3
+ * CS 325 - Digital Assignment 4
+ *		Title: Hotel Hassle
  *
  */
 
@@ -246,28 +247,28 @@ class MyScene extends Phaser.Scene {
 		//this.scene.restart();
 	}
 	
-	//
+	// player collected towel item, notify and update
 	towelCollected() {
 		console.log("Towel collected");	
 		this.curItemName = 'towel';
 		this.curItem.setTexture('towel');
 	}
 	
-	//
+	// player collected food item, notify and update
 	foodCollected() {
 		console.log("Food collected");	
 		this.curItemName = 'food';
 		this.curItem.setTexture('food');
 	}
 	
-	//
+	// player collected water item, notify and update
 	waterCollected() {
 		console.log("Water collected");	
 		this.curItemName = 'water';
 		this.curItem.setTexture('water');
 	}
 	
-	//
+	// spawn a new customer based on RNG conditions, add to customer list
 	spawnCustomer() {
 		console.log('Customer spawned');
 		// random attributes
@@ -283,15 +284,9 @@ class MyScene extends Phaser.Scene {
 		
 		let cust = this.physics.add.sprite(0,0, people[personIdx]);
 		cust.setScale(0.07);
-		/*cust.body.collideWorldBounds = true;
-		cust.setBounce(1);
-		cust.body.velocity.x = Math.pow(-1, dir) * v;*/
 		
 		let custItem = this.physics.add.sprite(0,0, items[itemIdx]);
 		custItem.setScale(0.06);
-		/*custItem.body.collideWorldBounds = true;
-		custItem.setBounce(1);
-		custItem.body.velocity.x = Math.pow(-1, dir) * v;*/
 		
 		let custContainer = this.add.container(x, y, [cust, custItem]);﻿﻿
 		this.physics.world.enableBody(custContainer);
@@ -323,6 +318,8 @@ class MyScene extends Phaser.Scene {
 		this.curCustomers.push(customerGroup);
 	}
 	
+	// detects collision between worker/player and customer. 
+	// 		despawn customer and remove from list if needs are met
 	custCollided(worker, container) {
 		//console.log("Customer collided with");
 		let itemName = container.list[1].texture.key;
@@ -352,12 +349,14 @@ class MyScene extends Phaser.Scene {
 		}
 	}
 	
+	// decrement player health
 	decreaseHealth() {
 		curHealth--;
 		let healthVal = Math.max(curHealth,0);
 		health.setText(healthVal.toString());
 	}
 	
+	// notify player that they have lost/ended the game
 	playerLost() {
 		let fired = this.add.image(400, 150, 'fired');
 	}
