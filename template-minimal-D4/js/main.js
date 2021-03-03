@@ -6,7 +6,7 @@
 
 import "./phaser.js";
 
-var isRunning = 0;
+var isRunning = 0;		// 1 if game active, else 0
 
 var time;
 var curTime = 0;
@@ -126,6 +126,10 @@ class MyScene extends Phaser.Scene {
 		health = this.add.text(380, heightUI, startHealth.toString(), textStyle);
 		score = this.add.text(510, heightUI, "0", textStyle);
 		
+		this.curItem = this.physics.add.sprite(760,580, 'question');
+		this.curItemName = 'question';
+		this.curItem.setScale(0.04);
+		
 		// UI header/type text
 		let heightHeader = 555;
 		let timeHeader = this.add.text(250, heightHeader, "TIME", headerStyle);
@@ -133,13 +137,11 @@ class MyScene extends Phaser.Scene {
 			"HEALTH", headerStyle);
 		let scoreHeader = this.add.text(510, heightHeader, 
 			"SCORE", headerStyle);
+		let itemHeader = this.add.text(750, heightHeader, 
+			"ITEM", headerStyle);
 		
 		instr1 = this.add.text(20, 10, "Collect/give items with collision", textStyle2);
 		instr2 = this.add.text(20, 40, "Arrows to move", textStyle2);
-		
-		this.curItem = this.physics.add.sprite(750,575, 'question');
-		this.curItemName = 'question';
-		this.curItem.setScale(0.06);
     }
     
     update() {
@@ -326,7 +328,7 @@ class MyScene extends Phaser.Scene {
 		let itemName = container.list[1].texture.key;
 	
 		// check if worker has item customer needs
-		if(itemName === this.curItemName) {
+		if(itemName === this.curItemName && isRunning) {
 			console.log("Customer received item: "+itemName+" "+this.curItemName);
 			
 			curScore+=1;
