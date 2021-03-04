@@ -52,6 +52,11 @@ class MyScene extends Phaser.Scene {
 		this.load.image( 'question', 'assets/question.png' );
 		this.load.image( 'fired', 'assets/fired.png' );
 		this.load.image( 'hourglass', 'assets/hourglass.png' );
+		
+		this.load.audio('deliver', 'assets/deliver.wav');
+		/*this.load.audio('deliver', 'assets/deliver.wav', {
+			instances: 1
+		});*/
     }
     
     create() {
@@ -293,7 +298,7 @@ class MyScene extends Phaser.Scene {
 		custContainer.body.collideWorldBounds = true;
 		custContainer.body.bounce.set(1);
 		custContainer.body.velocity.x = Math.pow(-1, dir) * v;
-		custContainer.body.setSize(5,5);
+		custContainer.body.setSize(5,10);
 		//custContainer.body.setOffset(400, 0);
 		
 		// modify customer properties if angry
@@ -330,6 +335,7 @@ class MyScene extends Phaser.Scene {
 			
 			curScore+=1;
 			score.setText(curScore.toString());
+			this.sound.play('deliver', {volume: 0.3});
 			
 			// search for customer in customer array
 			let index = -1;
