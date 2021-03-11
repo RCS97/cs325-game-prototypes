@@ -43,19 +43,19 @@ body
 
 <li><strong>Originality:</strong>
 <i>What is original about your game?
-</i> I think that the game is fairly original. It features a pretty unique style, objective set, and set of mechanics. The theme/story has some unique depth to it also.
+</i> I think that the game is fairly original. It features a pretty unique style, objective set, and set of mechanics. The theme/story has some unique depth to it also, with the whole germophobe theme. The aiming mechanism seems to be a pretty unique mechanic, especially. Also, it has a slightly educational twist by displaying Linear Regression with a clear display of how the points weight the computed line.
 </li>
 
 <li><strong>Technical Merit:</strong>
 <i>What is interesting about your game technology?</i> 
-Containers are used to pair items with customers. There is much randomness in how the customers behave, such as their speed, location, direction, paired item, type (angry or not), and character sprite.
+The primary technical merit is found in the use of Linear Regression. The Linear Regression is done through linear algebra and, notably, the Normal Equations. This method of linear regression seeks to minimize the standard least squares error, favoring the x variable. The Linear Regression is fed the points that the player placed, then it returns the a and b for the calculated line of format y=ax+b. Also, a timer is maintained and multiple levels are present. I also had to use some Trigonometry to aim the cleaning tool.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
 <i>What did you learn from this prototype?</i> 
-I revised my knowledge of how collisions work. I also learned how to use containers and play audio clips.
+I learned a method of having multiple levels in a game. I feel that there are probably different and better ways to do this, which may be useful in the future. I also learned a little bit about the math.js library.
 <i>What was the easiest or hardest part of making it?</i> 
-I had some difficulty fixing the collisions. I also had difficulty pairing the customers with items, which containers solved.
+I had some difficulty setting up the multiple levels. Primarily, maintaining and, if necessary, resetting of all the data.
 </li>
 
 <li><strong>Prototype Assets:</strong>
@@ -63,21 +63,35 @@ I had some difficulty fixing the collisions. I also had difficulty pairing the c
 I used various images found through Google.
 <ul>
 
-<li>Hotel Link: <a href="https://media.istockphoto.com/photos/3d-render-of-luxury-hotel-lobby-and-reception-picture-id1075994138?k=6&m=1075994138&s=612x612&w=0&h=Prv99S7081vCdXhYFsTzoH0ObleXFnG7HshHaeQdL70=">Hotel</a></li>
+<li> Dirt Link: <a href="https://cdn.pixabay.com/photo/2014/12/21/23/58/dirt-576491_960_720.png">Dirt </a></li>
 
-<li>People Link: <a href="https://lh4.googleusercontent.com/proxy/xVwOWhlRe1Cgybco6zj0_goLCH73rN--_N06HPyK-kId7sCPNn2VIr6mT-NY0nHYENX8Lx-hZn9eEAeGoEZqa8bLpsbnbIB-R-U38DXY_cyb6I25S22U-UmiksvYIaM3ZRS9D0z_Qjd-XPYAAwpR5zjGoNQTXmeV8Hel8UXVtbYw_f0h=s0-d">People</a></li>
+<li> Bacteria Link: <a href="https://webstockreview.net/images/bacteria-clipart-bad-bacteria-18.png">Bacteria</a></li>
 
-<li>Water Link: <a href="https://lh3.googleusercontent.com/proxy/EPmnwTtRPzd34ELDVqW46xHNFdmsX4caADd3PC3zV4tT0IiJOCQPv-lVMASfUaDQ5eLi5lG4yvrsp9ykqEsRpaJgofP_7rhM0-lh7AL4QaCp6D2E1pDRunZXyE1I5g">Water</a></li>
+<li> Corona Link: <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Coronavirus_cartoon.svg/1200px-Coronavirus_cartoon.svg.png
+">Corona</a></li>
 
-<li>Sandwich Link: <a href="https://lh3.googleusercontent.com/proxy/jTLiMUuFaT2GtaIExKr2wLyJpyJt4bLsL8cx3k0ucrfbSieiZer_C4xGijxwy51bwh36e2AW8zFJ4dQu6ZyhF3GA">Sandwich</a></li>
+<li> Bathroom Link: <a href="https://image.freepik.com/free-vector/bathroom-interior-clean-modern-room-furniture-flat-design_7081-741.jpg">Bathroom</a></li>
 
-<li>Towel Link: <a href="https://www.pinclipart.com/picdir/middle/80-801622_clip-art-beach-towel-png-download.png">Towel</a></li>
+<li> Living Room Link: <a href="https://t3.ftcdn.net/jpg/02/10/07/82/360_F_210078249_yrxpWY8OBljTBMSyibQrFmfXyEu2zY8n.jpg">Living Room</a></li>
 
-<li>Question Mark Link: <a href="https://www.pinclipart.com/picdir/big/62-620375_question-mark-clip-art-green-question-mark-transparent.png">Question Mark</a></li>
+<li> Kitchen Link: <a href="https://cdn1.vectorstock.com/i/1000x1000/46/80/modern-kitchen-interior-design-cartoon-vector-23464680.jpg">Kitchen</a></li>
 
-<li>Fired Link: <a href="https://cdn.psychologytoday.com/sites/default/files/styles/article-inline-half-caption/public/field_blog_entry_images/2018-10/fired.png?itok=H74ck5h8">Fired</a></li>
+<li> Soap Link: <a href="https://img.pngio.com/soap-png-png-picture-of-soap-498_372.png">Soap</a></li>
 
-<li>Hourglass Link: <a href="https://www.jing.fm/clipimg/full/90-901017_hourglass-icon-png-hour-glass-png-icon.png">Hourglass</a></li>
+<li> Spray Link: <a href="https://images.vexels.com/media/users/3/195268/isolated/preview/e2b4f177e03d22041aa467b8d1bdd726-water-spray-bottle-icon-by-vexels.png">Spray</a></li>
+
+<li> Sponge Link: <a href="https://static.vecteezy.com/system/resources/previews/001/196/039/non_2x/bubble-soap-sponge-png.png
+">Sponge</a></li>
+
+<li> Circle Link: <a href="https://www.transparentpng.com/thumb/circle/piRCkq-circle-picture-blue.png">Circle</a></li>
+
+<li> Vertical Line Link: <a href="https://lh3.googleusercontent.com/proxy/s9nFf9X2zsCcvTL12WJ90i3EprOIvqDdNKdlm4kxib-IDEjvct-B9DWt_wU-NcYYJ2nLYZ4BxSKO3rVc7qDtPcXC0BqVwswNa6T_AYAWDHKXAEYD4AlKbaJDpbQtXVDi">Line V</a></li>
+
+<li> Horizontal Line Link: <a href="https://img.pngio.com/horizontal-line-png-pictures-trzcacakrs-horizontal-line-png-1600_1600.png">Line H</a></li>
+
+<li> Trophy Link: <a href="https://i.pinimg.com/originals/bd/95/2e/bd952ef29081b1f7f1da69b98a3d4c57.png">Trophy</a></li>
+
+<li> Win Audio Link: <a href="https://freesound.org/people/steaq/sounds/387232/">Win</a></li>
 
 <li>Coin Audio Link: <a href="https://freesound.org/people/bradwesson/sounds/135936/">Coin</a></li>
 
@@ -86,54 +100,54 @@ I used various images found through Google.
 
 <li><strong>Prototype Closest Other Game:</strong>
 <i>Which other game most closely resembles your game? If you are borrowing code from a Phaser Example, you must say so here. If you borrow code from elsewhere, you must say so here.</i> 
-I did not borrow code, but there are likely somewhat games out there, where it is a race against time to complete certain goals and maximize some scoring metric. However, I think the implementation and style are pretty unique.
+I did not borrow code, and I am not aware of any very similar games. Of course, there are games that have a germ-related theme and have some aiming/shooting mechanic.
 </li>
 
 <li><strong>High Concept:</strong>
 <i>A one-sentence summary of your game.</i> 
-Serve as many customers as possible to avoid getting fired.
+Aim the cleaning tool by wisely placing path-weighting points and eliminate all dirt and germs.
 </li>
 
 <li><strong>Theme:</strong>
 <i>State which of the Storymatic themes you used.</i> 
-I used the hotel theme.
+I used the cleaning theme.
 </li>
 
 <li><strong>Mandated Variety:</strong>
-<i>State which input, randomness, genre, and play style you used in this prototype.</i> The input is keyboard (arrow keys). There is randomness in the speed, location, direction, paired item, customer type (angry or not), and character sprite of the customers. The genre is a health-based high score game. The playstyle could be collector or performer.
+<i>State which input, randomness, genre, and play style you used in this prototype.</i> The input is space bar to place points and mouse to click UI buttons. There is no randomness. The genre is a shooter or fighter. The playstyle could be Craftsman (crafting lines), Acheiver, or Performer.
 </li>
 
 <li><strong>Prototype Goal:</strong>
 <i>What game mechanic is this prototype evaluating?</i> 
-This game shows object collisions, object movement, timing, event-driven audio, and object pairing through containers.
+This game shows object collisions, object movement, timing, event-driven audio, and multi-level gameplay.
 </li>
 
 <li><strong>Player Experience Goals:</strong>
 <i>What experience do you want players to have when playing your game?</i> 
-Intense, fast-paced, replayable.
+Replayable, calculated, satisying, interesting, and fun.
 </li>
 
 <li><strong>Gameplay:</strong>
 <i>A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.</i>
-The player can start or stop/reset the game. Once started, they can move character (hotel employee). The player can collect items by colliding with their respective locations. The player can collide with customers, and, if the player has the item that the customer needs, the customer will be satisfied and leave. If the customer's need is not met in a certain time, the player's 'life' will decrement until he is fired (5 lives). Sometimes, 'angry' customers will spawn, being tinted red and having less wait time. When a customer is about to expire, an hourglass will appear above them.
+The player can start, stop, or reset the game. Once started, a 'guiding circle' will bounce around the screen. While the circle is moving, the player can place points with the space bar. The player must use all points. Once all points have been placed, the cleaning tool will be shot based on the locations of the points. The goal is to traverse through the three levels, shooting each enemy with the cleaning tools. Each level features a new cleaning tool, enemy, location, and 'guiding circle' speed.
 </li>
 
 <li><strong>Strategies:</strong>
 <i>What player strategies do you expect will be effective at playing this game?</i>
-Keeping track of the oldest customers will help prioritize them. Similarly, it is beneficial to focus on 'angry' customers, as they will also expire faster. It could also be beneficial to focus on faster customers when easily accessible. Possibly, understanding when it is not worth chasing a customer could also be useful. Lastly, collectinga high-demand item (many current customers want it) would make sense. I feel that there are many viable strategies.
+Having a good understanding of how the Linear Regression weights the points would help to wisely place the points. I think a viable strategy would be to try to place points close to the center, but being aware that any error below the center should be counteracted with error above the center, and vice-versa, to recenter the line.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
 <i>A paragraph about the world your game is set in and who the characters are. What makes the game world and its occupants unique and interesting? Do the tokens represent something? If the game has a backstory, mention it here. If the game is abstract, then say so.</i>
-The world is set in a hotel, where the player is a hotel worker. At a certain frequency, customers will enter the hotel lobby needing one of three possible items. The player must collect and give the customers the items they need, otherwise they will report the player/employee to the hotel manager, eventually getting the employee fired.
+The world is set in someone's house. The player is someone who has just become very paranoid about germs, as a result of the current COVID-19 pandemic. They decided to go through some of the rooms in their house to thoroughly clean them. For each type of germ, they have a corresponding cleaning tool to help eliminate it.
 
 <i>How will the dramatic tension interact with the gameplay tension?</i>
-As more customers fill into the lobby and as the player's 'health' decreases, tension will rise. Also, the more 'angry' customers that spawn, the more intense and difficult the game will be.
+The game will progressively get hard, throughout the levels, making it more intense. The theme of the game, being anti-germ, is fitting due to the current pandemic, so maybe players will feel more motivated to beat the game becuase of that.
 </li> 
 
 <li><strong>Target Audience:</strong>
 <i>A single sentence that describes the demographic you're trying to reach.</i>
- This game could attract people that like the rush of time-intensive, fast-paced games.
+ This game could attract people who like math, calculation-based, or aiming games or people who hate germs.
 </li> 
 
 <li><strong>Play Time:</strong>

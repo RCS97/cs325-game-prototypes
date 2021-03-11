@@ -182,7 +182,7 @@ class MyScene extends Phaser.Scene {
 	setupLevel1() {
 		// createLevel(lvlNum, bgImg, itemImg, enemyImg, itemSpeed, numPoints, 
 		//		bgScale, itemScale, enemyScale)
-		this.createLevel(1, 'living', 'spray', 'dirt', 500, 5,
+		this.createLevel(1, 'living', 'spray', 'dirt', 750, 5,
 			1.7, .2, 0.1);
 	}
 	
@@ -193,7 +193,7 @@ class MyScene extends Phaser.Scene {
 	setupLevel2() {
 		// createLevel(lvlNum, bgImg, itemImg, enemyImg, itemSpeed, numPoints, 
 		//		bgScale, itemScale, enemyScale)
-		this.createLevel(2, 'bathroom', 'soap', 'bacteria', 700, 5,
+		this.createLevel(2, 'bathroom', 'soap', 'bacteria', 1000, 5,
 			1.5, .15, 0.15);
 	}
 	
@@ -204,7 +204,7 @@ class MyScene extends Phaser.Scene {
 	setupLevel3() {
 		// createLevel(lvlNum, bgImg, itemImg, enemyImg, itemSpeed, numPoints, 
 		//		bgScale, itemScale, enemyScale)
-		this.createLevel(3, 'kitchen', 'sponge', 'corona', 900, 5,
+		this.createLevel(3, 'kitchen', 'sponge', 'corona', 1250, 5,
 			1, .2, 0.03);
 	}
 	
@@ -285,8 +285,8 @@ class MyScene extends Phaser.Scene {
 					
 		this.physics.add.collider(this.circle, this.line1, 
 					this.removeCircle, null, this);
-		this.physics.add.collider(this.circle, this.line3, 
-					this.borderBounce, null, this);
+		/*this.physics.add.collider(this.circle, this.line3, 
+					this.borderBounce, null, this);*/
 		this.physics.add.collider(this.circle, this.line4, 
 					this.borderBounce, null, this);
 					
@@ -304,6 +304,7 @@ class MyScene extends Phaser.Scene {
 		console.log("Border line hit");
 		
 		this.scene.restart();
+		isRunning = 0;
 		curFails += 1;
 		fails.setText(curFails.toString());
 	}
@@ -429,7 +430,7 @@ class MyScene extends Phaser.Scene {
 		let y = this.circle.y;
 		
 		// place circle at current circle location, if possible
-		if((curTime - this.lastCircle >= 30 || curTime==0) &&
+		if((curTime - this.lastCircle >= 20 || curTime==0) &&
 			this.circlesNeeded > this.circleCount) {
 			let circle = this.physics.add.sprite(x, y, 'circle');
 			circle.setScale(0.05);
