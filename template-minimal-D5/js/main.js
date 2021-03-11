@@ -121,8 +121,8 @@ class MyScene extends Phaser.Scene {
 
 		// check if running
 		if(isRunning) {
+			// update time
 			curTime++;
-			// check if health remains
 			time.setText((curTime+1)/100);
 				
 			// place point if possible
@@ -148,7 +148,7 @@ class MyScene extends Phaser.Scene {
 		//this.launchCircle();
 	}
 
-	// reset scene
+	// stop current level
 	stopButton() {
 		console.log('Stopped');
 		isRunning = 0;	
@@ -208,7 +208,7 @@ class MyScene extends Phaser.Scene {
 			1, .2, 0.03);
 	}
 	
-	//
+	// create game level based on given parameters
 	createLevel(lvlNum, bgImg, itemImg, enemyImg, itemSpeed, numPoints, 
 		bgScale, itemScale, enemyScale) {
 		// set data
@@ -331,8 +331,8 @@ class MyScene extends Phaser.Scene {
 		let traj = this.add.line(0,0, 0,b, lineLen,a*lineLen+b, 0x000);*/
 		
 		let x0 = this.item.x;
-		let safety = 75;
-		let timeout = 0;
+		let safety = 75;	// safety margin to ensure valid placement of item
+		let timeout = 0;	// timeout to avoid infinite loop if invalid line
 		// increment x to find valid position
 		while(((x0<safety || x0>800-safety) || 
 			(x0*a+b<safety || x0*a+b>500-safety)) && timeout<1000) {
@@ -347,6 +347,7 @@ class MyScene extends Phaser.Scene {
 			return;
 		}
 		
+		// place and shoot cleaning item
 		this.item.x = x0
 		this.item.y = this.item.x*a + b;
 		let vx = Math.cos(angleRad)*this.speed;
@@ -363,6 +364,7 @@ class MyScene extends Phaser.Scene {
 		let A = [];
 		let b = [];
 		
+		// build A and b matrices (the data)
 		for(var i=0; i<points.length; i++) {
 			let x = points[i][0];
 			let y = points[i][1];
@@ -373,15 +375,18 @@ class MyScene extends Phaser.Scene {
 			b.push([y]);
 		}
 		
+		// convert to math.js matrices
 		let A_mat = math.matrix(A);
 		let b_mat = math.matrix(b);
 		
 		//console.log(A_mat);
 		//console.log(b_mat);
 		
+		// setup for Normal Equations
 		let ATA = math.multiply(math.transpose(A_mat), A_mat);
 		let ATB = math.multiply(math.transpose(A_mat), b_mat);
 		
+		// compute a and b line parameters
 		let res = math.multiply(math.inv(ATA), ATB);
 		
 		/*console.log(res);
@@ -389,6 +394,7 @@ class MyScene extends Phaser.Scene {
 		  console.log('value:', value, 'index:', index) 
 		}) */
 		
+		// extract line parameters from result
 		let a_res = math.subset(res, math.index(1, 0));
 		let b_res = math.subset(res, math.index(0, 0));
 		
@@ -450,7 +456,7 @@ class MyScene extends Phaser.Scene {
 		}
 	}
 	
-	//
+	// shoots the 'guiding circle'
 	launchCircle() {
 		console.log("Launch circle");
 		
@@ -463,7 +469,7 @@ class MyScene extends Phaser.Scene {
 		//console.log("Circle vy: "+this.circle.body.velocity.y);
 	}
 	
-	//
+	// removes the 'guiding circle' after end of path
 	removeCircle(circle, line) {
 		circle.destroy();
 		
@@ -480,7 +486,7 @@ class MyScene extends Phaser.Scene {
 		}
 	}
 	
-	// 
+	// resets current level (loads/reloads corresponding setup)
 	resetLevel() {
 		//this.scene.restart();
 		
@@ -498,7 +504,7 @@ class MyScene extends Phaser.Scene {
 		}
 	}
 	
-	//
+	// tracks when 'guiding circle' bounces off horizontal walls
 	borderBounce() {
 		console.log("Circle bounced off wall");
 	}
