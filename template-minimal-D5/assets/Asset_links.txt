@@ -1,0 +1,75 @@
+
+// images
+
+// enemies
+
+dirt face
+https://cdn.pixabay.com/photo/2014/12/21/23/58/dirt-576491_960_720.png
+
+bacteria face
+https://webstockreview.net/images/bacteria-clipart-bad-bacteria-18.png
+
+corona
+https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Coronavirus_cartoon.svg/1200px-Coronavirus_cartoon.svg.png
+
+
+// backgrounds
+
+bathroom
+https://image.freepik.com/free-vector/bathroom-interior-clean-modern-room-furniture-flat-design_7081-741.jpg
+
+living room
+https://t3.ftcdn.net/jpg/02/10/07/82/360_F_210078249_yrxpWY8OBljTBMSyibQrFmfXyEu2zY8n.jpg
+
+kitchen
+https://cdn1.vectorstock.com/i/1000x1000/46/80/modern-kitchen-interior-design-cartoon-vector-23464680.jpg
+
+
+// players
+
+soap bar
+https://img.pngio.com/soap-png-png-picture-of-soap-498_372.png
+
+spray
+https://images.vexels.com/media/users/3/195268/isolated/preview/e2b4f177e03d22041aa467b8d1bdd726-water-spray-bottle-icon-by-vexels.png
+
+sponge
+https://static.vecteezy.com/system/resources/previews/001/196/039/non_2x/bubble-soap-sponge-png.png
+
+circle
+https://www.transparentpng.com/thumb/circle/piRCkq-circle-picture-blue.png
+
+line
+https://lh3.googleusercontent.com/proxy/s9nFf9X2zsCcvTL12WJ90i3EprOIvqDdNKdlm4kxib-IDEjvct-B9DWt_wU-NcYYJ2nLYZ4BxSKO3rVc7qDtPcXC0BqVwswNa6T_AYAWDHKXAEYD4AlKbaJDpbQtXVDi
+
+line h
+https://img.pngio.com/horizontal-line-png-pictures-trzcacakrs-horizontal-line-png-1600_1600.png
+
+line v
+https://lh3.googleusercontent.com/proxy/GCzTzZTReAdrVzAUIjh1iwVmLDOFF566wuB8_HElseOVAEbJJn0jhRncHmEH6QgXO3yVaA9emvPLH0St7H8ZNh4iodlKS6rUr-IxAF5P2_BOrk404bpx7BO-l2_RYoU
+
+trophy
+https://i.pinimg.com/originals/bd/95/2e/bd952ef29081b1f7f1da69b98a3d4c57.png
+
+win
+https://freesound.org/people/steaq/sounds/387232/
+
+coin
+https://freesound.org/people/bradwesson/sounds/135936/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
