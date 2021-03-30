@@ -25,7 +25,7 @@ var headerStyle;
 var instr1;
 var instr2;
 
-var people = ['guy','girl'];
+var people = ['worker', 'guy', 'girl'];
 var items = ['towel','water','food'];
 var waitTime = 3000;	// longer = will wait more time before report
 var spawnRate = 300;	// lower = faster

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello! Amaze!</title>
+<style>
+body
+{
+    color: #777;
+    font-family: "Avenir", Verdana, sans-serif;
+}
+#readme
+{
+    margin-top: 10px;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.3.0/math.js" integrity="sha512-bd8Oth+p1rTn+/iUFHsSozuYn7JpmH59vMWe6L+M3huScB/SMTXWkQoME3Ytk0sbGJ40VGp2mO2b8K8FNrewfQ==" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+<div id="game"></div>
+<div id="readme">
+<h2>Fleeing Fame</h2>
+
+<ul>
+<li><strong>Instructions:</strong>
+	<ul>
+		<li>Use the 'guiding circle' to place points</li>
+		<li>Pressing SPACE will place a point where the 'guiding circle is</li>
+		<li>Player should aim cleaning tool at dirt/germ enemy</li>
+		<li>Player fails a shot by not placing all points or missing their shot</li>
+		<li>The path of the cleaning tool is determined in a weighted manner by all points placed</li>
+		<li>After enemy is hit, next level will be loaded</li>
+		<li>Player should aim to complete all levels (3), minimized number of fails, and minimize time taken</li>
+	</ul>
+</li>
+
+
+<br>
+
+
+<li><strong>Originality:</strong>
+<i>What is original about your game?
+</i> I think that the game is fairly original. It features a pretty unique style, objective set, and set of mechanics. The theme/story has some unique depth to it also, with the whole germophobe theme. The aiming mechanism seems to be a pretty unique mechanic, especially. Also, it has a slightly educational twist by displaying Linear Regression with a clear display of how the points weight the computed line.
+</li>
+
+<li><strong>Technical Merit:</strong>
+<i>What is interesting about your game technology?</i> 
+The primary technical merit is found in the use of Linear Regression. The Linear Regression is done through linear algebra and, notably, the Normal Equations. This method of linear regression seeks to minimize the standard least squares error, favoring the x variable. The Linear Regression is fed the points that the player placed, then it returns the a and b for the calculated line of format y=ax+b. Also, a timer is maintained and multiple levels are present. I also had to use some Trigonometry to aim the cleaning tool.
+</li>
+
+<li><strong>Prototype Postmortem:</strong>
+<i>What did you learn from this prototype?</i> 
+I learned a method of having multiple levels in a game. I feel that there are probably different and better ways to do this, which may be useful in the future. I also learned a little bit about the math.js library.
+<i>What was the easiest or hardest part of making it?</i> 
+I had some difficulty setting up the multiple levels. Primarily, maintaining and, if necessary, resetting of all the data.
+</li>
+
+<li><strong>Prototype Assets:</strong>
+<i>Did you make your prototype assets from scratch? Did you borrow them? Cite your sources here.</i> 
+I used various images found through Google.
+<ul>
+
+<li> Dirt Link: <a href="https://cdn.pixabay.com/photo/2014/12/21/23/58/dirt-576491_960_720.png">Dirt </a></li>
+
+<li> Bacteria Link: <a href="https://webstockreview.net/images/bacteria-clipart-bad-bacteria-18.png">Bacteria</a></li>
+
+<li> Corona Link: <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Coronavirus_cartoon.svg/1200px-Coronavirus_cartoon.svg.png
+">Corona</a></li>
+
+<li> Bathroom Link: <a href="https://image.freepik.com/free-vector/bathroom-interior-clean-modern-room-furniture-flat-design_7081-741.jpg">Bathroom</a></li>
+
+<li> Living Room Link: <a href="https://t3.ftcdn.net/jpg/02/10/07/82/360_F_210078249_yrxpWY8OBljTBMSyibQrFmfXyEu2zY8n.jpg">Living Room</a></li>
+
+<li> Kitchen Link: <a href="https://cdn1.vectorstock.com/i/1000x1000/46/80/modern-kitchen-interior-design-cartoon-vector-23464680.jpg">Kitchen</a></li>
+
+<li> Soap Link: <a href="https://img.pngio.com/soap-png-png-picture-of-soap-498_372.png">Soap</a></li>
+
+<li> Spray Link: <a href="https://images.vexels.com/media/users/3/195268/isolated/preview/e2b4f177e03d22041aa467b8d1bdd726-water-spray-bottle-icon-by-vexels.png">Spray</a></li>
+
+<li> Sponge Link: <a href="https://static.vecteezy.com/system/resources/previews/001/196/039/non_2x/bubble-soap-sponge-png.png
+">Sponge</a></li>
+
+<li> Circle Link: <a href="https://www.transparentpng.com/thumb/circle/piRCkq-circle-picture-blue.png">Circle</a></li>
+
+<li> Vertical Line Link: <a href="https://lh3.googleusercontent.com/proxy/s9nFf9X2zsCcvTL12WJ90i3EprOIvqDdNKdlm4kxib-IDEjvct-B9DWt_wU-NcYYJ2nLYZ4BxSKO3rVc7qDtPcXC0BqVwswNa6T_AYAWDHKXAEYD4AlKbaJDpbQtXVDi">Line V</a></li>
+
+<li> Horizontal Line Link: <a href="https://img.pngio.com/horizontal-line-png-pictures-trzcacakrs-horizontal-line-png-1600_1600.png">Line H</a></li>
+
+<li> Trophy Link: <a href="https://i.pinimg.com/originals/bd/95/2e/bd952ef29081b1f7f1da69b98a3d4c57.png">Trophy</a></li>
+
+<li> Win Audio Link: <a href="https://freesound.org/people/steaq/sounds/387232/">Win</a></li>
+
+<li>Coin Audio Link: <a href="https://freesound.org/people/bradwesson/sounds/135936/">Coin</a></li>
+
+</ul>
+</li>
+
+<li><strong>Prototype Closest Other Game:</strong>
+<i>Which other game most closely resembles your game? If you are borrowing code from a Phaser Example, you must say so here. If you borrow code from elsewhere, you must say so here.</i> 
+I did not borrow code, and I am not aware of any very similar games. Of course, there are games that have a germ-related theme and have some aiming/shooting mechanic.
+</li>
+
+<li><strong>High Concept:</strong>
+<i>A one-sentence summary of your game.</i> 
+Aim the cleaning tool by wisely placing path-weighting points and eliminate all dirt and germs.
+</li>
+
+<li><strong>Theme:</strong>
+<i>State which of the Storymatic themes you used.</i> 
+I used the cleaning theme.
+</li>
+
+<li><strong>Mandated Variety:</strong>
+<i>State which input, randomness, genre, and play style you used in this prototype.</i> The input is space bar to place points and mouse to click UI buttons. There is no randomness. The genre is a shooter or fighter. The playstyle could be Craftsman (crafting lines), Acheiver, or Performer.
+</li>
+
+<li><strong>Prototype Goal:</strong>
+<i>What game mechanic is this prototype evaluating?</i> 
+This game shows object collisions, object movement, timing, event-driven audio, and multi-level gameplay.
+</li>
+
+<li><strong>Player Experience Goals:</strong>
+<i>What experience do you want players to have when playing your game?</i> 
+Replayable, calculated, satisying, interesting, and fun.
+</li>
+
+<li><strong>Gameplay:</strong>
+<i>A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.</i>
+The player can start, stop, or reset the game. Once started, a 'guiding circle' will bounce around the screen. While the circle is moving, the player can place points with the space bar. The player must use all points. Once all points have been placed, the cleaning tool will be shot based on the locations of the points. The goal is to traverse through the three levels, shooting each enemy with the cleaning tools. Each level features a new cleaning tool, enemy, location, and 'guiding circle' speed.
+</li>
+
+<li><strong>Strategies:</strong>
+<i>What player strategies do you expect will be effective at playing this game?</i>
+Having a good understanding of how the Linear Regression weights the points would help to wisely place the points. I think a viable strategy would be to try to place points close to the center, but being aware that any error below the center should be counteracted with error above the center, and vice-versa, to recenter the line.
+</li>
+
+<li><strong>Story/Setting/Premise:</strong>
+<i>A paragraph about the world your game is set in and who the characters are. What makes the game world and its occupants unique and interesting? Do the tokens represent something? If the game has a backstory, mention it here. If the game is abstract, then say so.</i>
+The world is set in someone's house. The player is someone who has just become very paranoid about germs, as a result of the current COVID-19 pandemic. They decided to go through some of the rooms in their house to thoroughly clean them. For each type of germ, they have a corresponding cleaning tool to help eliminate it.
+
+<i>How will the dramatic tension interact with the gameplay tension?</i>
+The game will progressively get hard, throughout the levels, making it more intense. The theme of the game, being anti-germ, is fitting due to the current pandemic, so maybe players will feel more motivated to beat the game becuase of that.
+</li> 
+
+<li><strong>Target Audience:</strong>
+<i>A single sentence that describes the demographic you're trying to reach.</i>
+ This game could attract people who like math, calculation-based, or aiming games or people who hate germs.
+</li> 
+
+<li><strong>Play Time:</strong>
+<i>How long does your game take to play?</i> 
+The game has no max time limit, but likely a few minutes.
+</li>
+
+</ul>
+</div>
+
+<!-- main.js must come at the end since it expects the HTML to have been created. -->
+<script src="js/main.js" type="module"></script>
+</body>
+</html>
+
+
+

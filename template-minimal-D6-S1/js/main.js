@@ -1,0 +1,440 @@
+
+/*
+ * CS 325 - Digital Assignment 6
+ *		Title: Fleeing Fame
+ *
+ */
+
+import "./phaser.js";
+
+var isRunning = 0;		// 1 if game active, else 0
+
+var time;
+var curTime = 0;
+
+var fails;
+var curFails = 0;
+
+var textStyle;
+var textStyle2;
+var headerStyle;
+var instr1;
+var instr2;
+
+var winWidth = 800;
+var winHeight = 600;
+
+var level = 1;
+
+var people = ['worker', 'guy', 'girl'];
+
+
+class MyScene extends Phaser.Scene {
+
+    constructor() {
+        super();
+    }
+    
+    preload() {
+		// images
+		
+		// backgrounds
+		this.load.image('lot1', 'assets/parking_lot.jpg' );
+		this.load.image('lot2', 'assets/parking_lot_3.jpg' );
+		this.load.image('lot3', 'assets/parking_lot_4.jpg' );
+	
+		
+		// characters
+		this.load.image('celeb', 'assets/celebrity.png' );
+		this.load.image('girl', 'assets/girl.png' );
+		this.load.image('guy', 'assets/guy.png' );
+		this.load.image('worker', 'assets/worker.png' );
+		
+		
+		// audio
+		this.load.audio('coin', 'assets/coin.wav');
+		this.load.audio('win', 'assets/win.wav');
+		this.load.audio('fail', 'assets/fail.wav');
+		
+		// other
+		this.load.image('lineV', 'assets/line_v.png' );
+		this.load.image('lineH', 'assets/line_h.png' );
+		this.load.image('circle', 'assets/circle.png' );
+		this.load.image('trophy', 'assets/trophy.png' );
+		this.load.image('car', 'assets/car_trans.png' );
+    }
+    
+    create() {
+		// initiate level
+		this.resetLevel();
+		
+		// inputs
+		this.cursors = this.input.keyboard.createCursorKeys();
+		this.spaceKey = this.input.keyboard.addKey('SPACE');
+		this.mouse = this.input.mousePointer;
+		this.cursors = this.input.keyboard.createCursorKeys();		
+		
+		// UI
+		this.add.rectangle(400, 600, 800, 100, 0x000);
+		this.add.rectangle(400, 550, 800, 2, 0xFFFFFF);
+
+		// text styles
+		textStyle = { font: "20px Verdana", fill: "#FFF" };
+		textStyle2 = { font: "20px Verdana", fill: "#000" };
+		headerStyle = { font: "10px Verdana", fill: "#00CC00" };
+		
+		const startBut = this.add.text(50, 560, 'Start', textStyle)
+			.setInteractive()
+			.on('pointerdown', () => this.startButton() );
+		const stopBut = this.add.text(150, 560, 'Stop', textStyle)
+			.setInteractive()
+			.on('pointerdown', () => this.stopButton() );
+		const resetBut = this.add.text(250, 560, 'Reset', textStyle)
+			.setInteractive()
+			.on('pointerdown', () => this.resetButton() );
+		
+		// UI value text
+		let heightUI = 568;
+		time = this.add.text(350, heightUI, (curTime)/100, textStyle);
+		fails = this.add.text(650, heightUI, curFails.toString(), textStyle);
+		
+		this.curItem = this.physics.add.sprite(760,580, 'question');
+		this.curItemName = 'question';
+		this.curItem.setScale(0.04);
+		
+		// UI header/type text
+		let heightHeader = 555;
+		let timeHeader = this.add.text(350, heightHeader, "TIME", headerStyle);
+		let failsHeader = this.add.text(650, heightHeader, 
+			"FAILS", headerStyle);
+		
+		instr1 = this.add.text(20, 10, "Arrows to move", textStyle2);
+		instr2 = this.add.text(20, 40, "Avoid paparazzi and get to the car", textStyle2);
+    }
+    
+    update() {
+		//console.log(curTime);
+
+		// check if running
+		if(isRunning) {
+			// update time
+			curTime++;
+			time.setText((curTime+1)/100);
+				
+			// player movement
+			let v = 150;
+			// horizontal movement
+			if (this.cursors.left.isDown) {
+				this.player.body.velocity.x = -v;
+			}
+			else if (this.cursors.right.isDown) {
+				this.player.body.velocity.x = v;
+			}
+			else {
+				this.player.body.velocity.x = 0;
+			}
+			// vertical movement
+			if (this.cursors.up.isDown) {
+				this.player.body.velocity.y = -v;
+			}
+			else if (this.cursors.down.isDown) {
+				this.player.body.velocity.y = v;
+			}
+			else {
+				this.player.body.velocity.y = 0;
+			}
+			
+			// update enemy/paparazzi positions
+			for(var i=0; i<this.enemies.length; i++) {
+				this.updateEnemy(this.enemies[i], curTime*this.speed);
+			}
+		}
+
+    }
+
+	// reset scene, then start timer and set to running
+	startButton() {
+		isRunning = 1;
+		console.log("Game started");
+		
+		//curTime = 0;
+		//time.setText(curTime.toString());
+		
+		this.scene.restart();
+		
+		// launch circle item
+		//this.resetLevel();
+		//this.launchCircle();
+	}
+
+	// stop current level
+	stopButton() {
+		console.log('Stopped');
+		isRunning = 0;	
+		//curHealth = 1000;
+		//curTime = 0;
+		//this.scene.restart();
+		
+		if(!(this.player.body === undefined)) {
+			this.player.body.velocity.x = 0;
+			this.player.body.velocity.y = 0;
+		}
+	}
+	
+	// reset game to level 1
+	resetButton() {
+		console.log("Game reset");
+		level = 1;
+		isRunning = 0;
+		
+		curTime = 0;
+		curFails = 0;
+		
+		this.scene.restart();
+	}
+	
+	// Background: parking lot 1
+	// Enemy Type: simple patterns
+	// Enemy Speed: low
+	setupLevel1() {
+		// createLevel(lvlNum, bgImg, bgScale, enemySpeed)
+		this.createLevel(1, 'lot1', 1.75, 0.8);
+		
+		// objects
+		
+		// player/celebrity
+		this.player = this.physics.add.sprite(100,400, 'celeb');
+		this.player.setScale(0.1);
+		this.player.body.collideWorldBounds = true;
+		
+		this.car = this.physics.add.sprite(700,100, 'car');
+		this.car.setScale(0.15);
+		
+		// enemies/paparazzi
+		let enemyGroup1 = this.getEnemyGroup(300, 300, 'guy', 
+			'100 * sin(t deg)', 
+			'100 * sin(t deg)');
+		let enemyGroup2 = this.getEnemyGroup(600, 400, 'girl', 
+			'0', 
+			'200 * cos(t deg)');
+		let enemyGroup3 = this.getEnemyGroup(200, 100, 'worker', 
+			'200* sin(t deg)', 
+			'0');
+		
+		
+		// create list of enemy group objects
+		this.enemies = [enemyGroup1, enemyGroup2, enemyGroup3];
+		
+		// collisions
+		this.physics.add.overlap(this.player, this.car, 
+			this.carHit, null, this);
+	}
+	
+	// Background: parking lot 1
+	// Enemy Type: somewhat complex patterns
+	// Enemy Speed: medium
+	setupLevel2() {
+		// createLevel(lvlNum, bgImg, bgScale, enemySpeed)
+		this.createLevel(2, 'lot2', 1.32, 1.4);
+		
+		// objects
+		
+		// player/celebrity
+		this.player = this.physics.add.sprite(100,400, 'celeb');
+		this.player.setScale(0.1);
+		this.player.body.collideWorldBounds = true;
+		
+		this.car = this.physics.add.sprite(700,100, 'car');
+		this.car.setScale(0.15);
+		
+		// enemies/paparazzi
+		let enemyGroup1 = this.getEnemyGroup(300, 300, 'guy', 
+			'100 * cos(t deg)', 
+			'100 * sin(t deg)');
+		let enemyGroup2 = this.getEnemyGroup(500, 400, 'girl', 
+			'50* sin(t deg)', 
+			'150* cos(t deg)');
+		let enemyGroup3 = this.getEnemyGroup(200, 100, 'worker', 
+			'50* sec(t deg)', 
+			'150* tan(t deg)');
+		
+		
+		// create list of enemy group objects
+		this.enemies = [enemyGroup1, enemyGroup2, enemyGroup3];
+		
+		// collisions
+		this.physics.add.overlap(this.player, this.car, 
+			this.carHit, null, this);
+	}
+	
+	// Background: parking lot 1
+	// Enemy Type: complex patterns
+	// Enemy Speed: high
+	setupLevel3() {
+		// createLevel(lvlNum, bgImg, bgScale, enemySpeed)
+		this.createLevel(3, 'lot3', 1.65, 2);
+		
+		// objects
+		
+		// player/celebrity
+		this.player = this.physics.add.sprite(100,400, 'celeb');
+		this.player.setScale(0.1);
+		this.player.body.collideWorldBounds = true;
+		
+		this.car = this.physics.add.sprite(700,100, 'car');
+		this.car.setScale(0.15);
+		
+		// enemies/paparazzi
+		let enemyGroup1 = this.getEnemyGroup(300, 300, 'guy', 
+			'100* (cos(t deg))^3', 
+			'100* (sin(t deg))^3');
+		let enemyGroup2 = this.getEnemyGroup(500, 400, 'girl', 
+			'50* sin(t deg)', 
+			'150* cos(t deg)');
+		let enemyGroup3 = this.getEnemyGroup(200, 100, 'worker', 
+			'100* sin(t deg)', 
+			'0');
+		
+		
+		// create list of enemy group objects
+		this.enemies = [enemyGroup1, enemyGroup2, enemyGroup3];
+		
+		// collisions
+		this.physics.add.overlap(this.player, this.car, 
+			this.carHit, null, this);
+	}
+	
+	// create game level based on given parameters
+	createLevel(lvlNum, bgImg, bgScale, enemySpeed) {
+		// set data
+		// this.scene.restart();
+		level = lvlNum;					// set level
+		this.speed = enemySpeed;		// speed enemies will travel
+		//curTime = 0;					// reset time
+		
+		// set background
+		var windowWidth = window.innerWidth;
+		var windowHeight = window.innerHeight;
+		this.bg = this.add.image(400, 250, bgImg);
+		this.bg.setScale(bgScale);
+		
+		console.log("Level "+lvlNum+" setup");
+	}
+	
+	//
+	getEnemyGroup(xStart, yStart, enemyImg, xEq, yEq) {
+		let enemyNew = this.physics.add.sprite(xStart,yStart, enemyImg);
+		enemyNew.setScale(0.04);
+		
+		//this.physics.add.overlap(this.player, enemyNew, this.enemyHit, null, this);
+		
+		var enemyGroup = {
+			enemy: enemyNew,
+			x0: xStart,
+			y0: yStart,
+			x: xEq,
+			y: yEq
+		};
+		
+		return enemyGroup;
+	}
+	
+	// update enemy position based on parametric equation
+	updateEnemy(enemyGroup, val) {
+		let x0 = enemyGroup.x0;
+		let y0 = enemyGroup.y0;
+		let x1 = math.evaluate(enemyGroup.x, {t:val});
+		let y1 = math.evaluate(enemyGroup.y, {t:val});
+		
+		enemyGroup.enemy.x = x0 + x1;
+		enemyGroup.enemy.y = y0 + y1;
+	}
+	
+	// reset level, hit enemy
+	enemyHit(player, enemy) {
+		console.log("FAIL: Enemy hit");
+		
+		this.sound.play('fail', {volume: 0.3});
+		this.scene.restart();
+		isRunning = 0;
+		curFails += 1;
+		fails.setText(curFails.toString());
+	}
+	
+	// go to next level or complete game
+	carHit() {
+		console.log("SUCCESS: Car hit");
+		isRunning = 0;
+		
+		if(level === 1) {
+			// go to level 2
+			//this.setupLevel2();
+			this.sound.play('coin', {volume: 0.3});
+			level = 2;
+			this.scene.restart();
+		}
+		else if(level === 2) {
+			// got to level 3
+			//this.setupLevel3();
+			this.sound.play('coin', {volume: 0.3});
+			level = 3;
+			this.scene.restart();
+		}
+		else if(level === 3) {
+			// finish game
+			this.sound.play('win', {volume: 0.3});
+			this.playerWin();
+		}
+	}
+	
+	// resets current level (loads/reloads corresponding setup)
+	resetLevel() {
+		//this.scene.restart();
+		
+		if(level === 1) {
+			// setup 1
+			this.setupLevel1();
+		}
+		else if(level === 2) {
+			// setup 2
+			this.setupLevel2();
+		}
+		else if(level === 3) {
+			// setup 3
+			this.setupLevel3();
+		}
+	}
+	
+	// notify player that they have won/ended the game
+	playerWin() {
+		this.player.destroy();
+		let trophy = this.add.image(400, 250, 'trophy');
+		trophy.setScale(0.25);
+	}
+	
+}
+
+
+
+
+const game = new Phaser.Game({
+    type: Phaser.AUTO,
+    parent: 'game',
+    width: 800,
+    height: 600,
+    scene: MyScene,
+    physics: { 
+		default: 'arcade' ,
+		arcade: {
+			debug: true
+		}
+	},
+});
+
+
+
+
+
+
+
+
