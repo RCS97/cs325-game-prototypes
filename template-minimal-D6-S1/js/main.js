@@ -15,6 +15,8 @@ var curTime = 0;
 var fails;
 var curFails = 0;
 
+var hasKeys = 0;
+
 var textStyle;
 var textStyle2;
 var headerStyle;
@@ -62,6 +64,9 @@ class MyScene extends Phaser.Scene {
 		this.load.image('circle', 'assets/circle.png' );
 		this.load.image('trophy', 'assets/trophy.png' );
 		this.load.image('car', 'assets/car_trans.png' );
+		this.load.image('keys', 'assets/keys.png' );
+		this.load.image('keys_grey', 'assets/keys_grey.png' );
+		this.load.image('camera', 'assets/camera.png' );
     }
     
     create() {
@@ -98,9 +103,8 @@ class MyScene extends Phaser.Scene {
 		time = this.add.text(350, heightUI, (curTime)/100, textStyle);
 		fails = this.add.text(650, heightUI, curFails.toString(), textStyle);
 		
-		this.curItem = this.physics.add.sprite(760,580, 'question');
-		this.curItemName = 'question';
-		this.curItem.setScale(0.04);
+		this.keysUI = this.physics.add.sprite(760,575, 'keys_grey');
+		this.keysUI.setScale(0.15);
 		
 		// UI header/type text
 		let heightHeader = 555;
@@ -108,8 +112,8 @@ class MyScene extends Phaser.Scene {
 		let failsHeader = this.add.text(650, heightHeader, 
 			"FAILS", headerStyle);
 		
-		instr1 = this.add.text(20, 10, "Arrows to move", textStyle2);
-		instr2 = this.add.text(20, 40, "Avoid paparazzi and get to the car", textStyle2);
+		instr1 = this.add.text(20, 10, "Avoid paparazzi, get keys, drive away", textStyle2);
+		instr2 = this.add.text(20, 40, "Arrows to move", textStyle2);
     }
     
     update() {
@@ -122,7 +126,7 @@ class MyScene extends Phaser.Scene {
 			time.setText((curTime+1)/100);
 				
 			// player movement
-			let v = 150;
+			let v = 175;
 			// horizontal movement
 			if (this.cursors.left.isDown) {
 				this.player.body.velocity.x = -v;
@@ -203,31 +207,47 @@ class MyScene extends Phaser.Scene {
 		// objects
 		
 		// player/celebrity
-		this.player = this.physics.add.sprite(100,400, 'celeb');
+		this.player = this.physics.add.sprite(60,490, 'celeb');
 		this.player.setScale(0.1);
 		this.player.body.collideWorldBounds = true;
 		
-		this.car = this.physics.add.sprite(700,100, 'car');
+		// car
+		this.car = this.physics.add.sprite(710,50, 'car');
 		this.car.setScale(0.15);
+		this.car.body.immovable = true;
+		
+		// keys
+		this.keys = this.physics.add.sprite(600,500, 'keys');
+		this.keys.setScale(0.15);
 		
 		// enemies/paparazzi
-		let enemyGroup1 = this.getEnemyGroup(300, 300, 'guy', 
-			'100 * sin(t deg)', 
-			'100 * sin(t deg)');
-		let enemyGroup2 = this.getEnemyGroup(600, 400, 'girl', 
+		let enemyGroup1 = this.getEnemyGroup(575, 150, 'guy', 
+			'150 * sin(t deg)', 
+			'150 * sin(t deg)');
+		let enemyGroup2 = this.getEnemyGroup(200, 300, 'girl', 
 			'0', 
 			'200 * cos(t deg)');
-		let enemyGroup3 = this.getEnemyGroup(200, 100, 'worker', 
-			'200* sin(t deg)', 
+		let enemyGroup3 = this.getEnemyGroup(300, 150, 'worker', 
+			'250* cos(t deg)', 
 			'0');
-		
 		
 		// create list of enemy group objects
 		this.enemies = [enemyGroup1, enemyGroup2, enemyGroup3];
 		
+		// UI border line
+		this.line = this.physics.add.sprite(400,555, 'lineH');
+		this.line.setScale(0.6);
+		this.line.body.setSize(800/this.line.scale, 5);
+		this.line.body.immovable = true;
+		this.line.visible = false;
+		
 		// collisions
-		this.physics.add.overlap(this.player, this.car, 
+		this.physics.add.collider(this.player, this.car, 
 			this.carHit, null, this);
+		this.physics.add.collider(this.player, this.keys, 
+			this.keysCollected, null, this);
+		this.physics.add.collider(this.player, this.line, 
+			null, null, this);
 	}
 	
 	// Background: parking lot 1
@@ -240,12 +260,18 @@ class MyScene extends Phaser.Scene {
 		// objects
 		
 		// player/celebrity
-		this.player = this.physics.add.sprite(100,400, 'celeb');
+		this.player = this.physics.add.sprite(60,490, 'celeb');
 		this.player.setScale(0.1);
 		this.player.body.collideWorldBounds = true;
 		
-		this.car = this.physics.add.sprite(700,100, 'car');
+		// car
+		this.car = this.physics.add.sprite(710,50, 'car');
 		this.car.setScale(0.15);
+		this.car.body.immovable = true;
+		
+		// keys
+		this.keys = this.physics.add.sprite(600,500, 'keys');
+		this.keys.setScale(0.15);
 		
 		// enemies/paparazzi
 		let enemyGroup1 = this.getEnemyGroup(300, 300, 'guy', 
@@ -255,16 +281,26 @@ class MyScene extends Phaser.Scene {
 			'50* sin(t deg)', 
 			'150* cos(t deg)');
 		let enemyGroup3 = this.getEnemyGroup(200, 100, 'worker', 
-			'50* sec(t deg)', 
-			'150* tan(t deg)');
-		
+			'150 * sin(t deg)', 
+			'50 * cos(t deg)');
 		
 		// create list of enemy group objects
 		this.enemies = [enemyGroup1, enemyGroup2, enemyGroup3];
 		
+		// UI border line
+		this.line = this.physics.add.sprite(400,555, 'lineH');
+		this.line.setScale(0.6);
+		this.line.body.setSize(800/this.line.scale, 5);
+		this.line.body.immovable = true;
+		this.line.visible = false;
+		
 		// collisions
-		this.physics.add.overlap(this.player, this.car, 
+		this.physics.add.collider(this.player, this.car, 
 			this.carHit, null, this);
+		this.physics.add.collider(this.player, this.keys, 
+			this.keysCollected, null, this);
+		this.physics.add.collider(this.player, this.line, 
+			null, null, this);
 	}
 	
 	// Background: parking lot 1
@@ -277,31 +313,47 @@ class MyScene extends Phaser.Scene {
 		// objects
 		
 		// player/celebrity
-		this.player = this.physics.add.sprite(100,400, 'celeb');
+		this.player = this.physics.add.sprite(60,490, 'celeb');
 		this.player.setScale(0.1);
 		this.player.body.collideWorldBounds = true;
 		
-		this.car = this.physics.add.sprite(700,100, 'car');
+		// car
+		this.car = this.physics.add.sprite(710,50, 'car');
 		this.car.setScale(0.15);
+		this.car.body.immovable = true;
+		
+		// keys
+		this.keys = this.physics.add.sprite(600,500, 'keys');
+		this.keys.setScale(0.15);
 		
 		// enemies/paparazzi
 		let enemyGroup1 = this.getEnemyGroup(300, 300, 'guy', 
 			'100* (cos(t deg))^3', 
 			'100* (sin(t deg))^3');
 		let enemyGroup2 = this.getEnemyGroup(500, 400, 'girl', 
-			'50* sin(t deg)', 
-			'150* cos(t deg)');
-		let enemyGroup3 = this.getEnemyGroup(200, 100, 'worker', 
-			'100* sin(t deg)', 
-			'0');
-		
+			'300 * cos((t/10) deg) * sin(4*(t/10) deg)', 
+			'300* sin((t/10) deg) * cos(4*(t/10) deg)');
+		let enemyGroup3 = this.getEnemyGroup(400, 100, 'worker', 
+			'40*cos(t deg) + 100*cos((2*t/3) deg)', 
+			'40*sin(t deg) - 100*sin((2*t/3) deg)');
 		
 		// create list of enemy group objects
 		this.enemies = [enemyGroup1, enemyGroup2, enemyGroup3];
 		
+		// UI border line
+		this.line = this.physics.add.sprite(400,555, 'lineH');
+		this.line.setScale(0.6);
+		this.line.body.setSize(800/this.line.scale, 5);
+		this.line.body.immovable = true;
+		this.line.visible = false;
+		
 		// collisions
-		this.physics.add.overlap(this.player, this.car, 
+		this.physics.add.collider(this.player, this.car, 
 			this.carHit, null, this);
+		this.physics.add.collider(this.player, this.keys, 
+			this.keysCollected, null, this);
+		this.physics.add.collider(this.player, this.line, 
+			null, null, this);
 	}
 	
 	// create game level based on given parameters
@@ -311,6 +363,7 @@ class MyScene extends Phaser.Scene {
 		level = lvlNum;					// set level
 		this.speed = enemySpeed;		// speed enemies will travel
 		//curTime = 0;					// reset time
+		hasKeys = 0;					// take away keys
 		
 		// set background
 		var windowWidth = window.innerWidth;
@@ -323,13 +376,27 @@ class MyScene extends Phaser.Scene {
 	
 	//
 	getEnemyGroup(xStart, yStart, enemyImg, xEq, yEq) {
-		let enemyNew = this.physics.add.sprite(xStart,yStart, enemyImg);
+		// enemy/paparazzi
+		let enemyNew = this.physics.add.sprite(0,0, enemyImg);
 		enemyNew.setScale(0.04);
 		
-		//this.physics.add.overlap(this.player, enemyNew, this.enemyHit, null, this);
+		// enemy's camera
+		let camera = this.physics.add.sprite(0,0, 'camera');
+		camera.setScale(0.05);
 		
+		this.physics.add.collider(this.player, enemyNew, this.enemyHit, null, this);
+		
+		// group enemy with camera
+		let enemyContainer = this.add.container(xStart, yStart, 
+			[enemyNew, camera]);﻿﻿
+		//this.physics.world.enableBody(enemyContainer);
+		//enemyContainer.body.setSize(10, 40);
+		
+		//this.physics.add.collider(this.player, enemyContainer, this.enemyHit, null, this);
+		
+		// group all relevant items/data
 		var enemyGroup = {
-			enemy: enemyNew,
+			enemy: enemyContainer,
 			x0: xStart,
 			y0: yStart,
 			x: xEq,
@@ -361,10 +428,30 @@ class MyScene extends Phaser.Scene {
 		fails.setText(curFails.toString());
 	}
 	
+	// player collected keys, can go to car. remove keys and update
+	// 		hasKeys and UI
+	keysCollected(player, keys) {
+		// remove keys
+		this.keys.destroy();
+		
+		// give feedback and update info/UI
+		this.sound.play('coin', {volume: 0.3});
+		hasKeys = 1;
+		this.keysUI = this.physics.add.sprite(760,575, 'keys');
+		this.keysUI.setScale(0.15);
+	}
+	
 	// go to next level or complete game
 	carHit() {
-		console.log("SUCCESS: Car hit");
-		isRunning = 0;
+		if(!hasKeys) {
+			// cannot drive car without keys
+			console.log("Must first collect keys");
+			return;
+		}
+		else {
+			console.log("SUCCESS: Car hit");
+			isRunning = 0;
+		}
 		
 		if(level === 1) {
 			// go to level 2
