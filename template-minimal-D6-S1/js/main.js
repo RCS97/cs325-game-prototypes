@@ -59,9 +59,7 @@ class MyScene extends Phaser.Scene {
 		this.load.audio('fail', 'assets/fail.wav');
 		
 		// other
-		this.load.image('lineV', 'assets/line_v.png' );
 		this.load.image('lineH', 'assets/line_h.png' );
-		this.load.image('circle', 'assets/circle.png' );
 		this.load.image('trophy', 'assets/trophy.png' );
 		this.load.image('car', 'assets/car_trans.png' );
 		this.load.image('keys', 'assets/keys.png' );
@@ -198,11 +196,11 @@ class MyScene extends Phaser.Scene {
 	}
 	
 	// Background: parking lot 1
-	// Enemy Type: simple patterns
+	// Enemy Type: simple patterns (lines)
 	// Enemy Speed: low
 	setupLevel1() {
 		// createLevel(lvlNum, bgImg, bgScale, enemySpeed)
-		this.createLevel(1, 'lot1', 1.75, 0.8);
+		this.createLevel(1, 'lot1', 1.75, 1.3);
 		
 		// objects
 		
@@ -217,18 +215,21 @@ class MyScene extends Phaser.Scene {
 		this.car.body.immovable = true;
 		
 		// keys
-		this.keys = this.physics.add.sprite(600,500, 'keys');
+		this.keys = this.physics.add.sprite(500,300, 'keys');
 		this.keys.setScale(0.15);
 		
 		// enemies/paparazzi
+		// diagonal line
 		let enemyGroup1 = this.getEnemyGroup(575, 150, 'guy', 
-			'150 * sin(t deg)', 
-			'150 * sin(t deg)');
+			'200 * sin(t deg)', 
+			'200 * sin(t deg)');
+		// vertical line
 		let enemyGroup2 = this.getEnemyGroup(200, 300, 'girl', 
 			'0', 
-			'200 * cos(t deg)');
-		let enemyGroup3 = this.getEnemyGroup(300, 150, 'worker', 
-			'250* cos(t deg)', 
+			'300 * cos(t deg)');
+		// horizontal line
+		let enemyGroup3 = this.getEnemyGroup(500, 350, 'worker', 
+			'300* cos(t deg)', 
 			'0');
 		
 		// create list of enemy group objects
@@ -251,11 +252,11 @@ class MyScene extends Phaser.Scene {
 	}
 	
 	// Background: parking lot 1
-	// Enemy Type: somewhat complex patterns
+	// Enemy Type: somewhat complex patterns (circles, ellipses)
 	// Enemy Speed: medium
 	setupLevel2() {
 		// createLevel(lvlNum, bgImg, bgScale, enemySpeed)
-		this.createLevel(2, 'lot2', 1.32, 1.4);
+		this.createLevel(2, 'lot2', 1.32, 1.7);
 		
 		// objects
 		
@@ -265,24 +266,27 @@ class MyScene extends Phaser.Scene {
 		this.player.body.collideWorldBounds = true;
 		
 		// car
-		this.car = this.physics.add.sprite(710,50, 'car');
+		this.car = this.physics.add.sprite(90,100, 'car');
 		this.car.setScale(0.15);
 		this.car.body.immovable = true;
 		
 		// keys
-		this.keys = this.physics.add.sprite(600,500, 'keys');
+		this.keys = this.physics.add.sprite(500,400, 'keys');
 		this.keys.setScale(0.15);
 		
 		// enemies/paparazzi
-		let enemyGroup1 = this.getEnemyGroup(300, 300, 'guy', 
-			'100 * cos(t deg)', 
-			'100 * sin(t deg)');
-		let enemyGroup2 = this.getEnemyGroup(500, 400, 'girl', 
-			'50* sin(t deg)', 
-			'150* cos(t deg)');
-		let enemyGroup3 = this.getEnemyGroup(200, 100, 'worker', 
-			'150 * sin(t deg)', 
-			'50 * cos(t deg)');
+		// circle
+		let enemyGroup1 = this.getEnemyGroup(200, 100, 'guy', 
+			'200 * cos(t deg)', 
+			'200 * sin(t deg)');
+		// horizontal ellipse
+		let enemyGroup2 = this.getEnemyGroup(500, 350, 'girl', 
+			'150* sin(t deg)', 
+			'300* cos(t deg)');
+		// vertical ellipse
+		let enemyGroup3 = this.getEnemyGroup(400, 300, 'worker', 
+			'300 * sin(t deg)', 
+			'150 * cos(t deg)');
 		
 		// create list of enemy group objects
 		this.enemies = [enemyGroup1, enemyGroup2, enemyGroup3];
@@ -304,11 +308,11 @@ class MyScene extends Phaser.Scene {
 	}
 	
 	// Background: parking lot 1
-	// Enemy Type: complex patterns
+	// Enemy Type: complex patterns (flowers, stars, ...)
 	// Enemy Speed: high
 	setupLevel3() {
 		// createLevel(lvlNum, bgImg, bgScale, enemySpeed)
-		this.createLevel(3, 'lot3', 1.65, 2);
+		this.createLevel(3, 'lot3', 1.65, 2.6);
 		
 		// objects
 		
@@ -318,24 +322,27 @@ class MyScene extends Phaser.Scene {
 		this.player.body.collideWorldBounds = true;
 		
 		// car
-		this.car = this.physics.add.sprite(710,50, 'car');
+		this.car = this.physics.add.sprite(710,500, 'car');
 		this.car.setScale(0.15);
 		this.car.body.immovable = true;
 		
 		// keys
-		this.keys = this.physics.add.sprite(600,500, 'keys');
+		this.keys = this.physics.add.sprite(200,200, 'keys');
 		this.keys.setScale(0.15);
 		
 		// enemies/paparazzi
-		let enemyGroup1 = this.getEnemyGroup(300, 300, 'guy', 
-			'100* (cos(t deg))^3', 
-			'100* (sin(t deg))^3');
-		let enemyGroup2 = this.getEnemyGroup(500, 400, 'girl', 
-			'300 * cos((t/10) deg) * sin(4*(t/10) deg)', 
-			'300* sin((t/10) deg) * cos(4*(t/10) deg)');
-		let enemyGroup3 = this.getEnemyGroup(400, 100, 'worker', 
-			'40*cos(t deg) + 100*cos((2*t/3) deg)', 
-			'40*sin(t deg) - 100*sin((2*t/3) deg)');
+		// diamond
+		let enemyGroup1 = this.getEnemyGroup(400, 300, 'guy', 
+			'400* (cos((t/2) deg))^3', 
+			'400* (sin((t/2) deg))^3');
+		// flower
+		let enemyGroup2 = this.getEnemyGroup(500, 200, 'girl', 
+			'400 * cos((t/8) deg) * sin(4*(t/10) deg)', 
+			'400* sin((t/8) deg) * sin(4*(t/10) deg)');
+		// star
+		let enemyGroup3 = this.getEnemyGroup(400, 200, 'worker', 
+			'50*(2*cos(t deg) + 5*cos((2*t/3) deg))', 
+			'50*(2*sin(t deg) - 5*sin((2*t/3) deg))');
 		
 		// create list of enemy group objects
 		this.enemies = [enemyGroup1, enemyGroup2, enemyGroup3];
@@ -513,7 +520,7 @@ const game = new Phaser.Game({
     physics: { 
 		default: 'arcade' ,
 		arcade: {
-			debug: true
+			debug: false
 		}
 	},
 });
