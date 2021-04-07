@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello! Amaze!</title>
+<style>
+body
+{
+    color: #777;
+    font-family: "Avenir", Verdana, sans-serif;
+}
+#readme
+{
+    margin-top: 10px;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.3.0/math.js" integrity="sha512-bd8Oth+p1rTn+/iUFHsSozuYn7JpmH59vMWe6L+M3huScB/SMTXWkQoME3Ytk0sbGJ40VGp2mO2b8K8FNrewfQ==" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+<div id="game"></div>
+<div id="readme">
+<h2>Fleeing Fame (iteration)</h2>
+
+<ul>
+<li><strong>Instructions:</strong>
+	<ul>
+		<li>Use arrows to move</li>
+		<li>Avoid colliding with enemies/paparazzi</li>
+		<li>Collect the keys by colliding with them</li>
+		<li>Once keys are collected, get to car and drive away</li>
+		<li>After driving away, next level will be loaded or game will end</li>
+		<li>Player should aim to complete all levels (3), minimized number of fails, and minimize time taken</li>
+	</ul>
+</li>
+
+<br>
+
+<li><strong>Changes:</strong>
+<br>
+As this is an iteration of D6-S1, there are some changes that I have made.
+</li>
+
+
+
+<br>
+
+
+<li><strong>Originality:</strong>
+<i>What is original about your game?
+</i> 
+I think that the style/theme and the way that the game is implemented is unique. The theme is Fame, where the player is the celebrity who must collect his lost keys and drive away before the paparazzi can bother him. This theme drives the game objective and structure, where paparazzi are placed in various positions and traverse in different ways to try to find and take pictures of the player/celebrity. The paparazzi movements are defined by different parametric equations that allow for interesting patterns that can vary in complexity.
+</li>
+
+<li><strong>Technical Merit:</strong>
+<i> What is interesting about your game technology?
+</i>
+Likely the main component of technical merit is found in the use of parametric equations. Parametric equations are used to define the movement patterns of paparazzi, which can vary in complexity. By using parametric equations instead of traditional functions, patterns that defy the vertical line test (no x value can correspond to more than one y value) are allowed. This allowance makes it so shapes such as circles, ellipses, flowers, and stars can be constructed. These equations are implemented by having both x and y correspond to independent equations with respect to a new variable, t. For the paparazzi patterns, I used trigonemetric functions (sin and cos notably) so the movement patterns had some bound, as the functions go from [-1,1] naturally. Research and experimentation was conducted to find patterns the vary in complexity. 
+</li>
+
+<li><strong>Prototype Postmortem:</strong>
+<i>What did you learn from this prototype?</i> 
+To accomplish the parametric equations task, I needed some way to evaluate functions. For this task, I found a math library (math.js) which allowed for functions to be defined by a string and evaluated by passing in one or more numbers, so I learned some about that library. I also learned more about parametric equations, notably how they could be use to design certain patterns.
+<i>What was the easiest or hardest part of making it?</i> 
+The game has multiple levels (3), and I wanted a gradual increase in difficulty between them. One of the components of difficulty that I used was the movement speed of the paparazzi. However, setting the movement speeds proved to be difficult when using parametric equations, due to both the x and y functions being drastically change per each change in t value. The movement speeds are a consequence of how fast these functions change, but with so many different functions it was hard to aim for some standard speed in each level.
+</li>
+
+<li><strong>Prototype Assets:</strong>
+<i>Did you make your prototype assets from scratch? Did you borrow them? Cite your sources here.</i> 
+I used various images found through Google.
+<ul>
+
+<li>Parking Lot 1 Link: <a href="https://media.istockphoto.com/photos/aerial-directly-above-view-of-the-empty-parking-lot-next-to-a-mall-picture-id979415462?k=6&m=979415462&s=612x612&w=0&h=VcY0uYPb1DgcvlPCWwLalqT4Q67iXwvui25RtjOCglM=">Lot 1</a></li>
+
+<li>Parking Lot 2 Link: <a href="https://media.istockphoto.com/photos/empty-parking-lots-aerial-view-picture-id576726498?k=6&m=576726498&s=612x612&w=0&h=TuAATWQX8uNV19ybhOTNIOhEZF-77pacWUp-JPkiUOU=">Lot 2</a></li>
+
+<li>Parking Lot 3 Link: <a href="https://media.istockphoto.com/photos/car-parking-lot-with-road-markings-and-numbering-parking-spaces-empty-picture-id1163015452?k=6&m=1163015452&s=612x612&w=0&h=s6Fq8W6MwJZH5w-18nTPH7nX3qnoPJE5P_ARtFIZk-c=">Lot 3</a></li>
+
+<li>People Link: <a href="https://lh4.googleusercontent.com/proxy/xVwOWhlRe1Cgybco6zj0_goLCH73rN--_N06HPyK-kId7sCPNn2VIr6mT-NY0nHYENX8Lx-hZn9eEAeGoEZqa8bLpsbnbIB-R-U38DXY_cyb6I25S22U-UmiksvYIaM3ZRS9D0z_Qjd-XPYAAwpR5zjGoNQTXmeV8Hel8UXVtbYw_f0h=s0-d">People</a></li>
+
+<li>Celebrity Link: <a href="https://webstockreview.net/images/clipart-eyes-boys-3.png">Celebrity</a></li>
+
+<li>Keys Link: <a href="https://i.pinimg.com/originals/f6/dc/c8/f6dcc82770511c215a9d7aa13c08dec3.png">Keys</a></li>
+
+<li>Camera Link: <a href="https://lh3.googleusercontent.com/proxy/h3IzknqX6nS_f1-MI7HwQyBb2Ej7p5k29XFwCtw7e-wgzFos-xEkjMBpY8rlKe3x9xr4jpjigi7c-6FGJuYwwwaVBCPm2Us">Camera</a></li>
+
+<li>Car Link: <a href="https://www.kindpng.com/picc/m/8-87030_cartoon-sports-car-png-banner-free-cartoon-transparent.png">Car</a></li>
+
+<li> Horizontal Line Link: <a href="https://img.pngio.com/horizontal-line-png-pictures-trzcacakrs-horizontal-line-png-1600_1600.png">Line H</a></li>
+
+<li> Trophy Link: <a href="https://i.pinimg.com/originals/bd/95/2e/bd952ef29081b1f7f1da69b98a3d4c57.png">Trophy</a></li>
+
+<li> Win Audio Link: <a href="https://freesound.org/people/steaq/sounds/387232/">Win</a></li>
+
+<li>Coin Audio Link: <a href="https://freesound.org/people/bradwesson/sounds/135936/">Coin</a></li>
+
+<li>Fail Audio Link: <a href="https://freesound.org/people/kantouth/sounds/106727/">Fail</a></li>
+
+</ul>
+</li>
+
+<li><strong>Prototype Closest Other Game:</strong>
+<i>Which other game most closely resembles your game? If you are borrowing code from a Phaser Example, you must say so here. If you borrow code from elsewhere, you must say so here.</i> 
+I did not borrow code, and I am not aware of any very similar games. Of course, there are games that have a fame-related theme and have some requirement to dodge enemies, but I think my implementation is pretty original.
+</li>
+
+<li><strong>High Concept:</strong>
+<i>A one-sentence summary of your game.</i> 
+Avoid paparazzi, collect your keys, and then get to your car to avoid the harassment that comes with fame.
+</li>
+
+<li><strong>Theme:</strong>
+<i>State which of the Storymatic themes you used.</i> 
+I used the fame theme. While a Storymatic theme was not required, I had an idea for the fame theme from a previous set of themes.
+</li>
+
+<li><strong>Mandated Variety:</strong>
+<i>State which input, randomness, genre, and play style you used in this prototype.</i> The inputs are the arrow kays to move the celebrity and mouse to click UI buttons. There is no randomness. The genre is fighter or puzzle. The playstyle could be Collector, Acheiver, or Performer.
+</li>
+
+<li><strong>Prototype Goal:</strong>
+<i>What game mechanic is this prototype evaluating?</i> 
+This game shows object collisions, object movement, timing, event-driven audio, and multi-level gameplay. Primarily, testing is being conducted on the paparazzi movement patterns.
+</li>
+
+<li><strong>Player Experience Goals:</strong>
+<i>What experience do you want players to have when playing your game?</i> 
+Replayable, calculated, satisying, interesting, and fun. I hope that the levels become progressively more intense and difficult.
+</li>
+
+<li><strong>Gameplay:</strong>
+<i>A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.</i>
+The player can start, stop, or reset the game. Once started, the enemies/paparazzi will begin moving and the player/celebrity can begin to freely move through the arrow keys. The paparazzi will each move differently, based on the parametric equations that define their movement. Throughout the levels, the paparazzi movement patterns will become more complex and their movement speed will become faster. In each level, the player must collect their keys and get to their car (both through collision) while avoiding the paparazzi. Once the last level is completed, the game will end and a trophy will appear.
+</li>
+
+<li><strong>Strategies:</strong>
+<i>What player strategies do you expect will be effective at playing this game?</i>
+Having a good understanding of how each individual enemy/paparazzi moves will help greatly. The player should, especially in the harder levels, take some time to observe how the enemies move, which will allow for better prediction and planning. Also, the player should try out different routes in an effort to complete the game faster. I think well-planned routes combined with good timing will be very effective.
+</li>
+
+<li><strong>Story/Setting/Premise:</strong>
+<i>A paragraph about the world your game is set in and who the characters are. What makes the game world and its occupants unique and interesting? Do the tokens represent something? If the game has a backstory, mention it here. If the game is abstract, then say so.</i>
+The world is set in various parking lots. The lots are meant to be parking lots for different big events, which would include some celebrities. The main character (player) is one of those celebrities, and he happens to have lost his car keys. He speculates that they are in the parking lot, so he goes to start searching. However, in the parking lot there is much paparazzi, which the celebrity wants to avoid due to their annoying nature. The celebrity must search the parking lot, find his keys, and get to his car to leave all while avoiding contact with the paparazzi.
+
+<i>How will the dramatic tension interact with the gameplay tension?</i>
+The game will progressively get harder, throughout the levels, making it more intense. The intensity, combined with the theme, will hopefully make for a fun, immersive, and satisfying experience.
+</li> 
+
+<li><strong>Target Audience:</strong>
+<i>A single sentence that describes the demographic you're trying to reach.</i>
+ This game could attract people who like math (notably, parametric equations) or puzzle games, or even speed-running.
+</li> 
+
+<li><strong>Play Time:</strong>
+<i>How long does your game take to play?</i> 
+The game has no max time limit, but likely a few minutes.
+</li>
+
+</ul>
+</div>
+
+<!-- main.js must come at the end since it expects the HTML to have been created. -->
+<script src="js/main.js" type="module"></script>
+</body>
+</html>
+
+
+

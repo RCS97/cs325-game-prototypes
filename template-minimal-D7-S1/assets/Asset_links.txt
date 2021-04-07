@@ -1,0 +1,95 @@
+
+// images for D6
+
+
+// enemies
+
+
+
+
+// backgrounds
+
+parking lot images: https://www.istockphoto.com/photos/empty-car-park-from-above
+
+parking lot
+https://media.istockphoto.com/photos/aerial-directly-above-view-of-the-empty-parking-lot-next-to-a-mall-picture-id979415462?k=6&m=979415462&s=612x612&w=0&h=VcY0uYPb1DgcvlPCWwLalqT4Q67iXwvui25RtjOCglM=
+
+parking lot 2 (trees)
+https://media.istockphoto.com/photos/aerial-parking-lot-symmetry-picture-id1164824079?k=6&m=1164824079&s=612x612&w=0&h=Dr6JRaZCQZg-jD5rSmGbtm1zQkF247NZyxpQELGcFyk=
+
+parking lot 3
+https://media.istockphoto.com/photos/empty-parking-lots-aerial-view-picture-id576726498?k=6&m=576726498&s=612x612&w=0&h=TuAATWQX8uNV19ybhOTNIOhEZF-77pacWUp-JPkiUOU=
+
+parking lot 4
+https://media.istockphoto.com/photos/car-parking-lot-with-road-markings-and-numbering-parking-spaces-empty-picture-id1163015452?k=6&m=1163015452&s=612x612&w=0&h=s6Fq8W6MwJZH5w-18nTPH7nX3qnoPJE5P_ARtFIZk-c=
+
+
+
+// players
+
+people
+https://lh4.googleusercontent.com/proxy/xVwOWhlRe1Cgybco6zj0_goLCH73rN--_N06HPyK-kId7sCPNn2VIr6mT-NY0nHYENX8Lx-hZn9eEAeGoEZqa8bLpsbnbIB-R-U38DXY_cyb6I25S22U-UmiksvYIaM3ZRS9D0z_Qjd-XPYAAwpR5zjGoNQTXmeV8Hel8UXVtbYw_f0h=s0-d
+
+celebrity 
+https://webstockreview.net/images/clipart-eyes-boys-3.png
+
+
+// other
+
+circle
+https://www.transparentpng.com/thumb/circle/piRCkq-circle-picture-blue.png
+
+line
+https://lh3.googleusercontent.com/proxy/s9nFf9X2zsCcvTL12WJ90i3EprOIvqDdNKdlm4kxib-IDEjvct-B9DWt_wU-NcYYJ2nLYZ4BxSKO3rVc7qDtPcXC0BqVwswNa6T_AYAWDHKXAEYD4AlKbaJDpbQtXVDi
+
+line h
+https://img.pngio.com/horizontal-line-png-pictures-trzcacakrs-horizontal-line-png-1600_1600.png
+
+trophy
+https://i.pinimg.com/originals/bd/95/2e/bd952ef29081b1f7f1da69b98a3d4c57.png
+
+car 
+https://www.kindpng.com/picc/m/8-87030_cartoon-sports-car-png-banner-free-cartoon-transparent.png
+
+keys
+https://i.pinimg.com/originals/f6/dc/c8/f6dcc82770511c215a9d7aa13c08dec3.png
+
+camera
+https://lh3.googleusercontent.com/proxy/h3IzknqX6nS_f1-MI7HwQyBb2Ej7p5k29XFwCtw7e-wgzFos-xEkjMBpY8rlKe3x9xr4jpjigi7c-6FGJuYwwwaVBCPm2Us
+
+
+// audio
+
+win
+https://freesound.org/people/steaq/sounds/387232/
+
+coin
+https://freesound.org/people/bradwesson/sounds/135936/
+
+fail
+https://freesound.org/people/kantouth/sounds/106727/
+
+
+// ITERATION
+
+blue car
+https://lh3.googleusercontent.com/proxy/g3ne9LNjPVnhb98poO0qGSi2Xwo_fAd28uf4pwX87BOF_eXa0ntK69g-WqjD2OhHu1tF9CYTSd3-t33WG4-UZU-X
+
+green car
+https://lh3.googleusercontent.com/proxy/-abMfI5NXxS3WEZpucLoTeeTQD2238oqefi0UOLaF4fKuOUCdEUUAIv8uMkLlpBx6m8384Sa06HgC9ZqJzXMzGlN
+
+grey car
+https://lh3.googleusercontent.com/proxy/4qUpOII_u_NUuPKkWG4EGf3OPNbaSXYZh4xP7AVOw2CS0_1oWzDBWYKt2EtE10bVeWk5lYTfLE2GPkdoYkoTdYvc
+
+
+
+
+
+
+
+
+
+
+
+
+
