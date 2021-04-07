@@ -30,6 +30,9 @@ var level = 1;
 
 var people = ['worker', 'guy', 'girl'];
 
+var playerStunned = 0;
+var timeStunned = -1000;
+
 
 class MyScene extends Phaser.Scene {
 
@@ -130,30 +133,50 @@ class MyScene extends Phaser.Scene {
 				
 			// player movement
 			let v = 175;
-			// horizontal movement
-			if (this.cursors.left.isDown) {
-				this.player.body.velocity.x = -v;
-			}
-			else if (this.cursors.right.isDown) {
-				this.player.body.velocity.x = v;
-			}
-			else {
-				this.player.body.velocity.x = 0;
-			}
-			// vertical movement
-			if (this.cursors.up.isDown) {
-				this.player.body.velocity.y = -v;
-			}
-			else if (this.cursors.down.isDown) {
-				this.player.body.velocity.y = v;
+			if(playerStunned && curTime-timeStunned < 100) {
+				// player stunned by car still
+				if(curTime-timeStunned > 90) {
+					// un-stun
+					console.log("Player un-stunned");
+					playerStunned = 0;
+					this.player.body.velocity.x = 0;
+					this.player.body.velocity.y = 0;
+				}
 			}
 			else {
-				this.player.body.velocity.y = 0;
+				// standard, player-controlled movement
+				playerStunned = 0;
+				
+				// horizontal movement
+				if (this.cursors.left.isDown) {
+					this.player.body.velocity.x = -v;
+				}
+				else if (this.cursors.right.isDown) {
+					this.player.body.velocity.x = v;
+				}
+				else {
+					this.player.body.velocity.x = 0;
+				}
+				// vertical movement
+				if (this.cursors.up.isDown) {
+					this.player.body.velocity.y = -v;
+				}
+				else if (this.cursors.down.isDown) {
+					this.player.body.velocity.y = v;
+				}
+				else {
+					this.player.body.velocity.y = 0;
+				}
 			}
 			
 			// update enemy/paparazzi positions
 			for(var i=0; i<this.enemies.length; i++) {
 				this.updateEnemy(this.enemies[i], curTime*this.speed);
+			}
+			
+			// update car obstacle positions
+			for(var i=0; i<this.carObstacles.length; i++) {
+				this.updateCar(this.carObstacles[i], curTime*this.speed);
 			}
 		}
 
@@ -248,9 +271,15 @@ class MyScene extends Phaser.Scene {
 		this.line.visible = false;
 		
 		// car obstacle
-		let car1 = this.physics.add.sprite(575,400, 'blue_car');
+		/*let car1 = this.physics.add.sprite(575,400, 'blue_car');
 		car1.body.immovable = true;
-		car1.setScale(0.25);
+		car1.setScale(0.25);*/
+		
+		let carGroup1 = this.getCarGroup(575,450, 'blue_car', 
+			'-100* cos(t deg)', 
+			'0');
+		
+		this.carObstacles = [carGroup1];
 		
 		// collisions
 		this.physics.add.collider(this.player, this.car, 
@@ -258,10 +287,6 @@ class MyScene extends Phaser.Scene {
 		this.physics.add.collider(this.player, this.keys, 
 			this.keysCollected, null, this);
 		this.physics.add.collider(this.player, this.line, 
-			null, null, this);
-			
-		// car obstacle collisions
-		this.physics.add.collider(this.player, car1, 
 			null, null, this);
 	}
 	
@@ -385,6 +410,9 @@ class MyScene extends Phaser.Scene {
 		this.speed = enemySpeed;		// speed enemies will travel
 		//curTime = 0;					// reset time
 		hasKeys = 0;					// take away keys
+		playerStunned = 0;				// player starts un-stunned by cars
+		timeStunned = -1000;			// make sure stun-time resets
+
 		
 		// set background
 		var windowWidth = window.innerWidth;
@@ -395,7 +423,7 @@ class MyScene extends Phaser.Scene {
 		console.log("Level "+lvlNum+" setup");
 	}
 	
-	//
+	// creates group object for enemies
 	getEnemyGroup(xStart, yStart, enemyImg, xEq, yEq) {
 		// enemy/paparazzi
 		let enemyNew = this.physics.add.sprite(0,0, enemyImg);
@@ -427,6 +455,27 @@ class MyScene extends Phaser.Scene {
 		return enemyGroup;
 	}
 	
+	// creates group for car obstacle
+	getCarGroup(xStart, yStart, carImg, xEq, yEq) {
+		// enemy/paparazzi
+		let carNew = this.physics.add.sprite(xStart,yStart, carImg);
+		carNew.setScale(0.25);
+		//carNew.body.immovable = true;
+		
+		this.physics.add.overlap(this.player, carNew, this.carObstacleHit, null, this);
+		
+		// group all relevant items/data
+		var carGroup = {
+			car: carNew,
+			x0: xStart,
+			y0: yStart,
+			x: xEq,
+			y: yEq
+		};
+		
+		return carGroup;
+	}
+	
 	// update enemy position based on parametric equation
 	updateEnemy(enemyGroup, val) {
 		let x0 = enemyGroup.x0;
@@ -438,6 +487,17 @@ class MyScene extends Phaser.Scene {
 		enemyGroup.enemy.y = y0 + y1;
 	}
 	
+	// update enemy position based on parametric equation
+	updateCar(carGroup, val) {
+		let x0 = carGroup.x0;
+		let y0 = carGroup.y0;
+		let x1 = math.evaluate(carGroup.x, {t:val});
+		let y1 = math.evaluate(carGroup.y, {t:val});
+		
+		carGroup.car.x = x0 + x1;
+		carGroup.car.y = y0 + y1;
+	}
+	
 	// reset level, hit enemy
 	enemyHit(player, enemy) {
 		console.log("FAIL: Enemy hit");
@@ -447,6 +507,42 @@ class MyScene extends Phaser.Scene {
 		isRunning = 0;
 		curFails += 1;
 		fails.setText(curFails.toString());
+	}
+	
+	// move player based on hitting car obstacle and stun
+	carObstacleHit(player, carObs) {
+		console.log("Car obstacle hit");
+		
+		// make player stunned
+		playerStunned = 1;
+		timeStunned = curTime;
+		
+		// set velocity due to car obstacle collision
+		let c = 2;
+		let vx = -1*c*player.body.velocity.x;
+		let vy = -1*c*player.body.velocity.y;
+		
+		// make sure new velocity is within reason
+		let angle = Math.atan(this.player.body.velocity.y / this.player.body.velocity.x);
+		
+		// max velocity
+		let v = 300;
+		let vx2 = v * Math.cos(angle);
+		let vy2 = v * Math.sin(angle);
+		
+		this.player.body.velocity.x = Math.min(vx, vx2);
+		this.player.body.velocity.y = Math.min(vy, vy2);
+		
+		// car obstacle velocity
+		/*let dx = -1*(player.x - carObs.x);
+		let dy = -1*(player.y - carObs.y);
+		
+		let angle = Math.atan(dy / dy) * 180/Math.PI;
+		
+		// move in direction of car obstacle temporarily
+		let v = 100;
+		this.player.body.velocity.x = v * Math.cos(angle);
+		this.player.body.velocity.y = v * Math.sin(angle);*/
 	}
 	
 	// player collected keys, can go to car. remove keys and update
