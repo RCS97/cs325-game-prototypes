@@ -28,11 +28,13 @@ body
 <li><strong>Instructions:</strong>
 	<ul>
 		<li>Use arrows to move</li>
-		<li>Avoid colliding with enemies/paparazzi</li>
+		<li>Avoid colliding with enemies/paparazzi and car obstacles</li>
 		<li>Collect the keys by colliding with them</li>
-		<li>Once keys are collected, get to car and drive away</li>
+		<li>Once keys are collected, get to the white car and drive away</li>
 		<li>After driving away, next level will be loaded or game will end</li>
 		<li>Player should aim to complete all levels (3), minimized number of fails, and minimize time taken</li>
+		<li>Upon collision with paparazzi, the level will restart</li>
+		<li>Upon collision with car obstacles, the player will be stunned and moved backwards</li>
 	</ul>
 </li>
 
@@ -40,7 +42,7 @@ body
 
 <li><strong>Changes:</strong>
 <br>
-As this is an iteration of D6-S1, there are some changes that I have made.
+As this is an iteration of D6-S1, there are some changes that I have made. The primary change was the addition of another obstacle, being random cars. These obstacles can also be considered characters, as they are just random cars traversing through the parking lot. Unlike the paparazzi, the cars do not directly cause level failure. The cars are set to be moving in certain ways (defined by parametric equations), and when the player collides with them they become stunned. When colliding with the car, the player will be moved backwards away from the car and unable to control their movement. After a certain amount of time, the player will become unstunned and stop moving uncontrollably. To make this mechanic work, some trigonemetry was used with consideration of the relative collision positions of the player and cars and a base velocity. The cars present additional challenges (non-lethal obstacles), add to the theme/story (new characters and conflict), and enhance the map designs (more aesthetically appealing). Other than the introduction of car obstacles, I also tweaked some of the level enemy speeds. I ended up slighly reducing the enemy speeds on levels 2 and 3 to make them more predictable in an effort for a more skill-based, rather than random, gameplay. The speeds could also be reduced due to the car obstacles balancing out the difficulty level.
 </li>
 
 
@@ -51,13 +53,13 @@ As this is an iteration of D6-S1, there are some changes that I have made.
 <li><strong>Originality:</strong>
 <i>What is original about your game?
 </i> 
-I think that the style/theme and the way that the game is implemented is unique. The theme is Fame, where the player is the celebrity who must collect his lost keys and drive away before the paparazzi can bother him. This theme drives the game objective and structure, where paparazzi are placed in various positions and traverse in different ways to try to find and take pictures of the player/celebrity. The paparazzi movements are defined by different parametric equations that allow for interesting patterns that can vary in complexity.
+I think that the style/theme and the way that the game is implemented is unique. The theme is Fame, where the player is the celebrity who must collect his lost keys and drive away before the paparazzi can bother him. This theme drives the game objective and structure, where paparazzi are placed in various positions and traverse in different ways to try to find and take pictures of the player/celebrity. The paparazzi and car obstacle movements are defined by different parametric equations that allow for interesting patterns that can vary in complexity.
 </li>
 
 <li><strong>Technical Merit:</strong>
 <i> What is interesting about your game technology?
 </i>
-Likely the main component of technical merit is found in the use of parametric equations. Parametric equations are used to define the movement patterns of paparazzi, which can vary in complexity. By using parametric equations instead of traditional functions, patterns that defy the vertical line test (no x value can correspond to more than one y value) are allowed. This allowance makes it so shapes such as circles, ellipses, flowers, and stars can be constructed. These equations are implemented by having both x and y correspond to independent equations with respect to a new variable, t. For the paparazzi patterns, I used trigonemetric functions (sin and cos notably) so the movement patterns had some bound, as the functions go from [-1,1] naturally. Research and experimentation was conducted to find patterns the vary in complexity. 
+Likely the main component of technical merit is found in the use of parametric equations. Parametric equations are used to define the movement patterns of paparazzi and car obstacles, which can vary in complexity. By using parametric equations instead of traditional functions, patterns that defy the vertical line test (no x value can correspond to more than one y value) are allowed. This allowance makes it so shapes such as circles, ellipses, flowers, and stars can be constructed. These equations are implemented by having both x and y correspond to independent equations with respect to a new variable, t. For the paparazzi patterns, I used trigonemetric functions (sin and cos notably) so the movement patterns had some bound, as the functions go from [-1,1] naturally. Research and experimentation was conducted to find patterns the vary in complexity. Also, to handle the collision mechanics between the player and car obstacles, some trigonometry was used. The car obstacles are designed to temporarily stun the player and push the away from the point of collision. To accomplish this, the difference between the car and player positions were considered at time of collision, then, with trigonemetry and a base velocity, the player's velocity was set accordingly.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
@@ -98,6 +100,13 @@ I used various images found through Google.
 
 <li>Fail Audio Link: <a href="https://freesound.org/people/kantouth/sounds/106727/">Fail</a></li>
 
+<li>Blue Car Link: <a href="https://lh3.googleusercontent.com/proxy/g3ne9LNjPVnhb98poO0qGSi2Xwo_fAd28uf4pwX87BOF_eXa0ntK69g-WqjD2OhHu1tF9CYTSd3-t33WG4-UZU-X">Blue Car</a></li>
+
+<li>Green Car Link: <a href="https://lh3.googleusercontent.com/proxy/-abMfI5NXxS3WEZpucLoTeeTQD2238oqefi0UOLaF4fKuOUCdEUUAIv8uMkLlpBx6m8384Sa06HgC9ZqJzXMzGlN
+">Green Car</a></li>
+
+<li>Grey Car Link: <a href="https://lh3.googleusercontent.com/proxy/4qUpOII_u_NUuPKkWG4EGf3OPNbaSXYZh4xP7AVOw2CS0_1oWzDBWYKt2EtE10bVeWk5lYTfLE2GPkdoYkoTdYvc">Grey Car</a></li>
+
 </ul>
 </li>
 
@@ -108,7 +117,7 @@ I did not borrow code, and I am not aware of any very similar games. Of course, 
 
 <li><strong>High Concept:</strong>
 <i>A one-sentence summary of your game.</i> 
-Avoid paparazzi, collect your keys, and then get to your car to avoid the harassment that comes with fame.
+Avoid paparazzi and car obstacles, collect your keys, and then get to your car to avoid the harassment that comes with fame.
 </li>
 
 <li><strong>Theme:</strong>
@@ -132,17 +141,17 @@ Replayable, calculated, satisying, interesting, and fun. I hope that the levels 
 
 <li><strong>Gameplay:</strong>
 <i>A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.</i>
-The player can start, stop, or reset the game. Once started, the enemies/paparazzi will begin moving and the player/celebrity can begin to freely move through the arrow keys. The paparazzi will each move differently, based on the parametric equations that define their movement. Throughout the levels, the paparazzi movement patterns will become more complex and their movement speed will become faster. In each level, the player must collect their keys and get to their car (both through collision) while avoiding the paparazzi. Once the last level is completed, the game will end and a trophy will appear.
+The player can start, stop, or reset the game. Once started, the enemies/paparazzi and car obstacles will begin moving and the player/celebrity can begin to freely move through the arrow keys. The paparazzi and car obstacles will each move differently, based on the parametric equations that define their movement. Throughout the levels, the paparazzi movement patterns will become more complex and their movement speed will become faster. In each level, the player must collect their keys and get to their car (both through collision) while avoiding the paparazzi. Once the last level is completed, the game will end and a trophy will appear.
 </li>
 
 <li><strong>Strategies:</strong>
 <i>What player strategies do you expect will be effective at playing this game?</i>
-Having a good understanding of how each individual enemy/paparazzi moves will help greatly. The player should, especially in the harder levels, take some time to observe how the enemies move, which will allow for better prediction and planning. Also, the player should try out different routes in an effort to complete the game faster. I think well-planned routes combined with good timing will be very effective.
+Having a good understanding of how each individual enemy/paparazzi and car obstacle moves will help greatly. The player should, especially in the harder levels, take some time to observe how the enemies move, which will allow for better prediction and planning. Also, the player should try out different routes in an effort to complete the game faster. I think well-planned routes combined with good timing will be very effective.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
 <i>A paragraph about the world your game is set in and who the characters are. What makes the game world and its occupants unique and interesting? Do the tokens represent something? If the game has a backstory, mention it here. If the game is abstract, then say so.</i>
-The world is set in various parking lots. The lots are meant to be parking lots for different big events, which would include some celebrities. The main character (player) is one of those celebrities, and he happens to have lost his car keys. He speculates that they are in the parking lot, so he goes to start searching. However, in the parking lot there is much paparazzi, which the celebrity wants to avoid due to their annoying nature. The celebrity must search the parking lot, find his keys, and get to his car to leave all while avoiding contact with the paparazzi.
+The world is set in various parking lots. The lots are meant to be parking lots for different big events, which would include some celebrities. The main character (player) is one of those celebrities, and he happens to have lost his car keys. He speculates that they are in the parking lot, so he goes to start searching. However, in the parking lot there is much paparazzi, which the celebrity wants to avoid due to their annoying nature. There are also cars that are traversing around the parking lot, which the player should also try to avoid. The celebrity must search the parking lot, find his keys, and get to his car to leave, all while avoiding contact with the paparazzi.
 
 <i>How will the dramatic tension interact with the gameplay tension?</i>
 The game will progressively get harder, throughout the levels, making it more intense. The intensity, combined with the theme, will hopefully make for a fun, immersive, and satisfying experience.

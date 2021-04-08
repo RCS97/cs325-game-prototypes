@@ -270,14 +270,10 @@ class MyScene extends Phaser.Scene {
 		this.line.body.immovable = true;
 		this.line.visible = false;
 		
-		// car obstacle
-		/*let car1 = this.physics.add.sprite(575,400, 'blue_car');
-		car1.body.immovable = true;
-		car1.setScale(0.25);*/
-		
-		let carGroup1 = this.getCarGroup(575,450, 'blue_car', 
-			'-100* cos(t deg)', 
-			'0');
+		// car obstacles
+		let carGroup1 = this.getCarGroup(400,350, 'blue_car', 45, 
+			'-100 * sin(t deg)', 
+			'-100 * sin(t deg)');
 		
 		this.carObstacles = [carGroup1];
 		
@@ -295,7 +291,7 @@ class MyScene extends Phaser.Scene {
 	// Enemy Speed: medium
 	setupLevel2() {
 		// createLevel(lvlNum, bgImg, bgScale, enemySpeed)
-		this.createLevel(2, 'lot2', 1.32, 1.7);
+		this.createLevel(2, 'lot2', 1.32, 1.2);
 		
 		// objects
 		
@@ -337,6 +333,17 @@ class MyScene extends Phaser.Scene {
 		this.line.body.immovable = true;
 		this.line.visible = false;
 		
+		// car obstacles
+		let carGroup1 = this.getCarGroup(575,450, 'blue_car',45, 
+			'150 * sin(t deg)', 
+			'150 * sin(t deg)');
+			
+		let carGroup2 = this.getCarGroup(150,250, 'green_car',-45, 
+			'150 * sin(-1*t deg)', 
+			'150 * sin(t deg)');
+		
+		this.carObstacles = [carGroup1, carGroup2];
+		
 		// collisions
 		this.physics.add.collider(this.player, this.car, 
 			this.carHit, null, this);
@@ -351,7 +358,7 @@ class MyScene extends Phaser.Scene {
 	// Enemy Speed: high
 	setupLevel3() {
 		// createLevel(lvlNum, bgImg, bgScale, enemySpeed)
-		this.createLevel(3, 'lot3', 1.65, 2.6);
+		this.createLevel(3, 'lot3', 1.65, 2.0);
 		
 		// objects
 		
@@ -392,6 +399,21 @@ class MyScene extends Phaser.Scene {
 		this.line.body.setSize(800/this.line.scale, 5);
 		this.line.body.immovable = true;
 		this.line.visible = false;
+		
+		// car obstacles
+		let carGroup1 = this.getCarGroup(585,425, 'blue_car',-45, 
+			'150 * sin(t deg)', 
+			'150 * sin(-1*t deg)');
+			
+		let carGroup2 = this.getCarGroup(100,300, 'green_car',0, 
+			'250 * sin(-1*t deg)', 
+			'0');
+			
+		let carGroup3 = this.getCarGroup(300,100, 'grey_car',90, 
+			'0', 
+			'300 * sin(t deg)');
+		
+		this.carObstacles = [carGroup1, carGroup2, carGroup3];
 		
 		// collisions
 		this.physics.add.collider(this.player, this.car, 
@@ -456,10 +478,11 @@ class MyScene extends Phaser.Scene {
 	}
 	
 	// creates group for car obstacle
-	getCarGroup(xStart, yStart, carImg, xEq, yEq) {
+	getCarGroup(xStart, yStart, carImg, rotation, xEq, yEq) {
 		// enemy/paparazzi
 		let carNew = this.physics.add.sprite(xStart,yStart, carImg);
 		carNew.setScale(0.25);
+		carNew.angle = rotation;
 		//carNew.body.immovable = true;
 		
 		this.physics.add.overlap(this.player, carNew, this.carObstacleHit, null, this);
@@ -513,36 +536,33 @@ class MyScene extends Phaser.Scene {
 	carObstacleHit(player, carObs) {
 		console.log("Car obstacle hit");
 		
+		if(playerStunned) return;
+		
 		// make player stunned
 		playerStunned = 1;
 		timeStunned = curTime;
 		
-		// set velocity due to car obstacle collision
-		let c = 2;
-		let vx = -1*c*player.body.velocity.x;
-		let vy = -1*c*player.body.velocity.y;
 		
-		// make sure new velocity is within reason
-		let angle = Math.atan(this.player.body.velocity.y / this.player.body.velocity.x);
+		// player to car position difference
+		let dx = (player.x - carObs.x);
+		let dy = (player.y - carObs.y);
 		
-		// max velocity
-		let v = 300;
-		let vx2 = v * Math.cos(angle);
-		let vy2 = v * Math.sin(angle);
+		let xDir = dx<0 ? -1 : 1;
+		let yDir = dy<0 ? -1 : 1;
 		
-		this.player.body.velocity.x = Math.min(vx, vx2);
-		this.player.body.velocity.y = Math.min(vy, vy2);
+		//console.log(dx, dy);
 		
-		// car obstacle velocity
-		/*let dx = -1*(player.x - carObs.x);
-		let dy = -1*(player.y - carObs.y);
+		let angle = Math.atan(dy / dx);
 		
-		let angle = Math.atan(dy / dy) * 180/Math.PI;
+		// move based on collision positions
+		let v = 200;
+		let vx = Math.abs(v * Math.cos(angle)) * xDir;
+		let vy = Math.abs(v * Math.sin(angle)) * yDir;
 		
-		// move in direction of car obstacle temporarily
-		let v = 100;
-		this.player.body.velocity.x = v * Math.cos(angle);
-		this.player.body.velocity.y = v * Math.sin(angle);*/
+		//console.log(vx, vy);
+		
+		this.player.body.velocity.x = vx;
+		this.player.body.velocity.y = vy;
 	}
 	
 	// player collected keys, can go to car. remove keys and update
