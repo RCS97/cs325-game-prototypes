@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello! Amaze!</title>
+<style>
+body
+{
+    color: #777;
+    font-family: "Avenir", Verdana, sans-serif;
+}
+#readme
+{
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+<div id="game"></div>
+<div id="readme">
+<h2>Title</h2>
+
+<ul>
+<li><strong>Instructions:</strong>
+	<ul>
+		<li>Collect/deliver items by colliding with the item/customer</li>
+		<li>Item icon in bottom right shows current item held</li>
+		<li>Item icon on customers shows item they need</li>
+		<li>When spawned, customers are set with max wait time</li>
+		<li>If customer waits too long, they leave and player's 'health' decrements</li>
+		<li>Occasionally, an angry customer will spawn with half wait time and red tint</li>
+		<li>An hourglass will appear above customers when they are about to expire</li>
+		<li>Player should serve as many customers as possible</li>
+	</ul>
+</li>
+
+
+<br>
+
+
+<li><strong>Originality:</strong>
+<i>What is original about your game?
+</i> I think that the game is fairly original. It features a pretty unique style, objective set, and set of mechanics. The theme/story has some unique depth to it also.
+</li>
+
+<li><strong>Technical Merit:</strong>
+<i>What is interesting about your game technology?</i> 
+Containers are used to pair items with customers. There is much randomness in how the customers behave, such as their speed, location, direction, paired item, type (angry or not), and character sprite.
+</li>
+
+<li><strong>Prototype Postmortem:</strong>
+<i>What did you learn from this prototype?</i> 
+I revised my knowledge of how collisions work. I also learned how to use containers and play audio clips.
+<i>What was the easiest or hardest part of making it?</i> 
+I had some difficulty fixing the collisions. I also had difficulty pairing the customers with items, which containers solved.
+</li>
+
+<li><strong>Prototype Assets:</strong>
+<i>Did you make your prototype assets from scratch? Did you borrow them? Cite your sources here.</i> 
+I used various images found through Google.
+<ul>
+
+<li>Hotel Link: <a href="https://media.istockphoto.com/photos/3d-render-of-luxury-hotel-lobby-and-reception-picture-id1075994138?k=6&m=1075994138&s=612x612&w=0&h=Prv99S7081vCdXhYFsTzoH0ObleXFnG7HshHaeQdL70=">Hotel</a></li>
+
+<li>People Link: <a href="https://lh4.googleusercontent.com/proxy/xVwOWhlRe1Cgybco6zj0_goLCH73rN--_N06HPyK-kId7sCPNn2VIr6mT-NY0nHYENX8Lx-hZn9eEAeGoEZqa8bLpsbnbIB-R-U38DXY_cyb6I25S22U-UmiksvYIaM3ZRS9D0z_Qjd-XPYAAwpR5zjGoNQTXmeV8Hel8UXVtbYw_f0h=s0-d">People</a></li>
+
+<li>Water Link: <a href="https://lh3.googleusercontent.com/proxy/EPmnwTtRPzd34ELDVqW46xHNFdmsX4caADd3PC3zV4tT0IiJOCQPv-lVMASfUaDQ5eLi5lG4yvrsp9ykqEsRpaJgofP_7rhM0-lh7AL4QaCp6D2E1pDRunZXyE1I5g">Water</a></li>
+
+<li>Sandwich Link: <a href="https://lh3.googleusercontent.com/proxy/jTLiMUuFaT2GtaIExKr2wLyJpyJt4bLsL8cx3k0ucrfbSieiZer_C4xGijxwy51bwh36e2AW8zFJ4dQu6ZyhF3GA">Sandwich</a></li>
+
+<li>Towel Link: <a href="https://www.pinclipart.com/picdir/middle/80-801622_clip-art-beach-towel-png-download.png">Towel</a></li>
+
+<li>Question Mark Link: <a href="https://www.pinclipart.com/picdir/big/62-620375_question-mark-clip-art-green-question-mark-transparent.png">Question Mark</a></li>
+
+<li>Fired Link: <a href="https://cdn.psychologytoday.com/sites/default/files/styles/article-inline-half-caption/public/field_blog_entry_images/2018-10/fired.png?itok=H74ck5h8">Fired</a></li>
+
+<li>Hourglass Link: <a href="https://www.jing.fm/clipimg/full/90-901017_hourglass-icon-png-hour-glass-png-icon.png">Hourglass</a></li>
+
+<li>Coin Audio Link: <a href="https://freesound.org/people/bradwesson/sounds/135936/">Coin</a></li>
+
+</ul>
+</li>
+
+<li><strong>Prototype Closest Other Game:</strong>
+<i>Which other game most closely resembles your game? If you are borrowing code from a Phaser Example, you must say so here. If you borrow code from elsewhere, you must say so here.</i> 
+I did not borrow code, but there are likely somewhat games out there, where it is a race against time to complete certain goals and maximize some scoring metric. However, I think the implementation and style are pretty unique.
+</li>
+
+<li><strong>High Concept:</strong>
+<i>A one-sentence summary of your game.</i> 
+Serve as many customers as possible to avoid getting fired.
+</li>
+
+<li><strong>Theme:</strong>
+<i>State which of the Storymatic themes you used.</i> 
+I used the hotel theme.
+</li>
+
+<li><strong>Mandated Variety:</strong>
+<i>State which input, randomness, genre, and play style you used in this prototype.</i> The input is keyboard (arrow keys). There is randomness in the speed, location, direction, paired item, customer type (angry or not), and character sprite of the customers. The genre is a health-based high score game. The playstyle could be collector or performer.
+</li>
+
+<li><strong>Prototype Goal:</strong>
+<i>What game mechanic is this prototype evaluating?</i> 
+This game shows object collisions, object movement, timing, event-driven audio, and object pairing through containers.
+</li>
+
+<li><strong>Player Experience Goals:</strong>
+<i>What experience do you want players to have when playing your game?</i> 
+Intense, fast-paced, replayable.
+</li>
+
+<li><strong>Gameplay:</strong>
+<i>A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.</i>
+The player can start or stop/reset the game. Once started, they can move character (hotel employee). The player can collect items by colliding with their respective locations. The player can collide with customers, and, if the player has the item that the customer needs, the customer will be satisfied and leave. If the customer's need is not met in a certain time, the player's 'life' will decrement until he is fired (5 lives). Sometimes, 'angry' customers will spawn, being tinted red and having less wait time. When a customer is about to expire, an hourglass will appear above them.
+</li>
+
+<li><strong>Strategies:</strong>
+<i>What player strategies do you expect will be effective at playing this game?</i>
+Keeping track of the oldest customers will help prioritize them. Similarly, it is beneficial to focus on 'angry' customers, as they will also expire faster. It could also be beneficial to focus on faster customers when easily accessible. Possibly, understanding when it is not worth chasing a customer could also be useful. Lastly, collectinga high-demand item (many current customers want it) would make sense. I feel that there are many viable strategies.
+</li>
+
+<li><strong>Story/Setting/Premise:</strong>
+<i>A paragraph about the world your game is set in and who the characters are. What makes the game world and its occupants unique and interesting? Do the tokens represent something? If the game has a backstory, mention it here. If the game is abstract, then say so.</i>
+The world is set in a hotel, where the player is a hotel worker. At a certain frequency, customers will enter the hotel lobby needing one of three possible items. The player must collect and give the customers the items they need, otherwise they will report the player/employee to the hotel manager, eventually getting the employee fired.
+
+<i>How will the dramatic tension interact with the gameplay tension?</i>
+As more customers fill into the lobby and as the player's 'health' decreases, tension will rise. Also, the more 'angry' customers that spawn, the more intense and difficult the game will be.
+</li> 
+
+<li><strong>Target Audience:</strong>
+<i>A single sentence that describes the demographic you're trying to reach.</i>
+ This game could attract people that like the rush of time-intensive, fast-paced games.
+</li> 
+
+<li><strong>Play Time:</strong>
+<i>How long does your game take to play?</i> 
+The game has no max time limit, but likely a few minutes.
+</li>
+
+</ul>
+</div>
+
+<!-- main.js must come at the end since it expects the HTML to have been created. -->
+<script src="js/main.js" type="module"></script>
+</body>
+</html>
+
+
+

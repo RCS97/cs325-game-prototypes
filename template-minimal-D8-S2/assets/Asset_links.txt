@@ -1,0 +1,39 @@
+
+// images/audio for D8 - S2
+
+
+hourglass
+https://www.jing.fm/clipimg/full/90-901017_hourglass-icon-png-hour-glass-png-icon.png
+
+tower
+https://lh5.googleusercontent.com/proxy/U5owDfCifLb2lIIriepvXv5NbPco0FlwdQfmPeQP16uiS8Yei2fuIaRoKnwK8pqU-7xuQdtYKXvIXEMoR6pTRIDH9EtP1iVZT-AXfwpd5DE=s0-d
+
+spartan
+https://mpng.subpng.com/20180319/ije/kisspng-spartan-army-master-chief-clip-art-spartan-warrior-cliparts-5ab05853cf97b6.3832367915215063878503.jpg
+
+persian
+https://lh3.googleusercontent.com/proxy/Zq-hz__E_8puR65UpaABquvf7sztg9gPleTG0sCe4ZcgOkJkWxJ94-pZxD-3uQ4kDmbnRXqF87xq2h63YUc9S0Kq
+
+grass
+https://media.istockphoto.com/photos/aerial-green-grass-texture-background-top-view-picture-id1142791938?k=6&m=1142791938&s=612x612&w=0&h=cX9mDQYMiDfw01Qsy9c2bTc1RJEIu1yYh3EL0VkOFKs=
+
+line h
+https://img.pngio.com/horizontal-line-png-pictures-trzcacakrs-horizontal-line-png-1600_1600.png
+
+
+
+// audio
+
+coin
+https://freesound.org/people/bradwesson/sounds/135936/
+
+fail
+https://freesound.org/people/kantouth/sounds/106727/
+
+
+
+
+
+
+
+
