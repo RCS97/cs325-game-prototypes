@@ -32,9 +32,11 @@ spawnRate = 100;
 var winWidth = 800;
 var winHeight = 600;
 
-var towerStartHealth = 100;
-var spikesCost = 2;
+var towerStartHealth = 10;
+var spikesCost = 4;
 var spikesHealth = 2;
+var slimeCost = 2;
+var slimeHealth = 4;
 
 
 
@@ -52,6 +54,9 @@ class MyScene extends Phaser.Scene {
 		this.load.image( 'tower', 'assets/tower.png' );
 		this.load.image( 'lineH', 'assets/line_h.png' );
 		this.load.image( 'spikes', 'assets/spikes_trans2.png' );
+		this.load.image( 'fire', 'assets/fire_trans.png' );
+		this.load.image( 'slime', 'assets/slime_trans.png' );
+		this.load.image( 'gameover', 'assets/gameover.png' );
 		
 		
 		// audio
@@ -99,7 +104,7 @@ class MyScene extends Phaser.Scene {
 		this.tower2.setScale(0.1);
 		this.tower2.body.immovable = true;
 		
-		this.tower2.setData('health', towerStartHealth);
+		this.tower2.setData('health', towerStartHealth/10);
 		this.tower2.setData('tower', 1);
 		this.t2Health = this.add.text(40, 400, "", textStyle3);
 		this.t2Health.setText([
@@ -153,9 +158,15 @@ class MyScene extends Phaser.Scene {
 		
 		this.curTrap = '';
 		
-		this.spikeTrap = this.physics.add.sprite(760,580, 'spikes').setInteractive();
+		let spikeX = 760;
+		this.spikeTrap = this.physics.add.sprite(spikeX,580, 'spikes').	setInteractive();
 		this.spikeTrap.setScale(0.07);
 		this.spikeTrap.on('pointerdown', this.spikesSelected, this);
+		
+		let slimeX = 670;
+		this.slimeTrap = this.physics.add.sprite(slimeX,580, 'slime').setInteractive();
+		this.slimeTrap.setScale(0.07);
+		this.slimeTrap.on('pointerdown', this.slimeSelected, this);
 		
 		
 		//this.speedTrap = this.physics.add.sprite(760,580, 'question');
@@ -167,8 +178,10 @@ class MyScene extends Phaser.Scene {
 		let moneyHeader = this.add.text(380, heightHeader, 
 			"MONEY", headerStyle);
 			
-		this.spikesHeader = this.add.text(740, heightHeader, 
+		this.spikesHeader = this.add.text(spikeX-20, heightHeader, 
 			"SPIKES ["+spikesCost+"]", headerStyle);
+		this.slimeHeader = this.add.text(slimeX-20, heightHeader, 
+			"SLIME ["+slimeCost+"]", headerStyle);
 		
 		instr1 = this.add.text(20, 10, "Collect/give items with collision", textStyle2);
 		instr2 = this.add.text(20, 40, "Arrows to move", textStyle2);
@@ -267,6 +280,17 @@ class MyScene extends Phaser.Scene {
 			for(var i=0; i<this.enemyGroups.length; i++) {
 				this.setEnemyRoute(this.enemyGroups[i].enemy);
 			}
+			
+			// add fire image
+			let x = tower.x;
+			let y = tower.y;
+			let fire = this.add.image(x, y, 'fire');
+			fire.setScale(0.2);
+			
+			let tow1Health = this.tower1.data.get('health');
+			let tow2Health = this.tower2.data.get('health');
+			
+			this.sound.play('fail', {volume: 0.3});
 		}
 	}
 	
@@ -312,7 +336,7 @@ class MyScene extends Phaser.Scene {
 		let y = Math.floor(Math.random() * 400) + 50;
 		
 		let enemy = this.physics.add.sprite(x,y, 'enemy');
-		enemy.setScale(0.15);
+		enemy.setScale(0.14);
 	
 		let tower = this.setEnemyRoute(enemy);
 		
@@ -321,13 +345,15 @@ class MyScene extends Phaser.Scene {
 			tower: tower
 		};
 		
+		enemy.setData('hit', false);
+		
 		this.enemyGroups.push(enemyGroup);
 		
 		this.physics.add.collider(enemy, this.tower1, 
 			this.towerHit, null, this);
 		this.physics.add.collider(enemy, this.tower2, 
 			this.towerHit, null, this);
-		this.physics.add.collider(this.player, enemy, 
+		this.physics.add.overlap(this.player, enemy, 
 			this.enemyHit, null, this);
 			
 		this.addCollisionsToEnemy(enemy)
@@ -364,7 +390,7 @@ class MyScene extends Phaser.Scene {
 		// search for trap in enemy container array
 		let index = -1;
 		for(var i=0; i<this.curTraps.length; i++) {
-			if(this.curTraps.trap === trap) {
+			if(this.curTraps[i] === trap) {
 				index = i;
 				break;
 			}
@@ -380,14 +406,28 @@ class MyScene extends Phaser.Scene {
 		trap.destroy();
 	}
 	
-	//
+	// process spike trap selection
 	spikesSelected() {
 		this.curTrap = 'spikes';
 		console.log("Spikes clicked", this.curTrap);
 		this.spikesHeader.setColor("#FF0000");
+		
+		// un-mark other trap icons
+		this.slimeHeader.setColor("#00CC00");
 	}
 	
-	//
+	// process spike trap selection
+	slimeSelected() {
+		this.curTrap = 'slime';
+		console.log("Slime clicked", this.curTrap);
+		this.slimeHeader.setColor("#FF0000");
+		
+		// un-mark other trap icons
+		this.spikesHeader.setColor("#00CC00");
+	}
+	
+	// place trap if possible
+	// trap data: type, health, handler, health text
 	bgClicked() {
 		let x = this.mouse.x;
 		let y = this.mouse.y;
@@ -400,6 +440,7 @@ class MyScene extends Phaser.Scene {
 			let spikeTrap = this.physics.add.sprite(x,y, 'spikes');
 			spikeTrap.setScale(0.07);
 			spikeTrap.body.immovable = true;
+			spikeTrap.setData('type', 'spikes');
 			spikeTrap.setData('health', spikesHealth);
 			spikeTrap.setData('handler', this.spikeHit);
 			
@@ -413,6 +454,27 @@ class MyScene extends Phaser.Scene {
 			
 			this.curTraps.push(spikeTrap);
 		}
+		else if(this.curTrap === 'slime' && curMoney>=slimeCost) {
+			this.updateMoney(curMoney-slimeCost);
+			console.log("slime placed");
+			
+			let slimeTrap = this.physics.add.sprite(x,y, 'slime');
+			slimeTrap.setScale(0.07);
+			slimeTrap.body.immovable = true;
+			slimeTrap.setData('type', 'spikes');
+			slimeTrap.setData('health', slimeHealth);
+			slimeTrap.setData('handler', this.slimeHit);
+			
+			let trapHealth = this.add.text(x, y+10, "", textStyle3);
+			trapHealth.setText([
+				''+slimeHealth
+			]);
+			slimeTrap.setData('healthText', trapHealth);
+			
+			this.addCollisionsToTrap(slimeTrap);
+			
+			this.curTraps.push(slimeTrap);
+		}
 	}
 	
 	// add enemy collisions to new trap
@@ -423,7 +485,7 @@ class MyScene extends Phaser.Scene {
 			if(this.enemyGroups[i].enemy === undefined)
 				continue;
 			
-			this.physics.add.collider(trap, this.enemyGroups[i].enemy, 
+			this.physics.add.overlap(trap, this.enemyGroups[i].enemy, 
 				handler, null, this);
 		}
 	}
@@ -436,7 +498,7 @@ class MyScene extends Phaser.Scene {
 			
 			let handler = this.curTraps[i].data.get('handler');
 			
-			this.physics.add.collider(this.curTraps[i], enemy, 
+			this.physics.add.overlap(this.curTraps[i], enemy, 
 				handler, null, this);
 		}
 	}
@@ -463,6 +525,38 @@ class MyScene extends Phaser.Scene {
 		this.sound.play('coin', {volume: 0.3});
 	}
 	
+	// register slime hit
+	slimeHit(slime, enemy) {
+		console.log("Slime hit");
+		
+		// check if already hit by trap
+		if(enemy.data.get('hit') === true)
+			return;
+		
+		// set to hit  by trap
+		enemy.setData('hit', true);
+		
+		// halve enemy speed
+		enemy.body.velocity.x = enemy.body.velocity.x/2;
+		enemy.body.velocity.y = enemy.body.velocity.y/2;
+		
+		let curSlimeHealth = slime.data.get('health');
+		
+		// check spike health, despawn or decrement
+		if(curSlimeHealth === 1) 
+			this.despawnTrap(slime);
+		else {
+			slime.setData('health', curSlimeHealth-1);
+			
+			let trapHealth = slime.data.get('healthText');
+			trapHealth.setText([
+				''+curSlimeHealth-1
+			]);
+		}
+		
+		//this.sound.play('coin', {volume: 0.3});
+	}
+	
 	// updates money amount to value given
 	updateMoney(value) {
 		curMoney = value;
@@ -475,6 +569,10 @@ class MyScene extends Phaser.Scene {
 	playerLost() {
 		console.log("GAME OVER");
 		//let fired = this.add.image(400, 150, 'fired');
+		let gameOver = this.add.image(400, 150, 'gameover');
+		
+		let overStr = "TIME LASTED: "+curTime/100;
+		let overText = this.add.text(300, 300, overStr, textStyle2);
 	}
 	
 }
