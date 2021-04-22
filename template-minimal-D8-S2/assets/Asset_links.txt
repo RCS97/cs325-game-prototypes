@@ -2,9 +2,6 @@
 // images/audio for D8 - S2
 
 
-hourglass
-https://www.jing.fm/clipimg/full/90-901017_hourglass-icon-png-hour-glass-png-icon.png
-
 tower
 https://lh5.googleusercontent.com/proxy/U5owDfCifLb2lIIriepvXv5NbPco0FlwdQfmPeQP16uiS8Yei2fuIaRoKnwK8pqU-7xuQdtYKXvIXEMoR6pTRIDH9EtP1iVZT-AXfwpd5DE=s0-d
 
@@ -25,6 +22,9 @@ https://lh3.googleusercontent.com/proxy/P3RYxwmM_KlTh8e0_1LKJnwM6sYsvgjP0QI8SRBN
 
 slime
 https://thumbs.dreamstime.com/b/puddle-green-slime-liquid-toxic-mold-vector-cartoon-style-isolated-illustration-puddle-green-slime-liquid-toxic-mold-vector-199165251.jpg
+
+spikes
+https://image.pngaaa.com/982/2723982-middle.png
 
 game over
 https://lh3.googleusercontent.com/proxy/Bf_zBYAFuNKgfnPbKCjsECuDw6IBArDrR81keQggdlQ7LQAv0zDVxjjZBAPccIbj7tyh0bxvp5hWaGgIJthksjO2zmYfvuj40ILJXmAI7TZw

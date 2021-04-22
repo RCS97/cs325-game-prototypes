@@ -25,9 +25,10 @@ var headerStyle;
 var people = ['worker', 'guy', 'girl'];
 var items = ['towel','water','food'];
 var waitTime = 3000;	// longer = will wait more time before report
-var spawnRate = 100;	// lower = faster
-var spawnUpdateRate = 110;	// lower = spawn rate increases faster
-var enemySpeed = 120;
+var spawnRate = 180;	// lower = faster
+var startSpawnRate = spawnRate;
+var spawnUpdateRate = 140;	// lower = spawn rate increases faster
+var enemySpeed = 100;
 var playerSpeed = 130;
 
 var winWidth = 800;
@@ -283,6 +284,8 @@ class MyScene extends Phaser.Scene {
 		curTime = 0;
 		curMoney = startMoney;
 		
+		spawnRate = startSpawnRate;
+		
 		time.setText(curTime.toString());
 		money.setText(startMoney.toString());
 		
@@ -380,12 +383,13 @@ class MyScene extends Phaser.Scene {
 		//console.log("Spawn enemy");
 		
 		let x = 700;
-		let yRange = 1000;
+		let yRange = 800;
 		let y = Math.floor(Math.random() * yRange) - (yRange-600)/2;
 		
 		let enemy = this.physics.add.sprite(x,y, 'enemy');
 		enemy.setScale(0.14);
 		enemy.setData('hit', false);
+		enemy.setData('hitList', []);
 	
 		let tower = this.setEnemyRoute(enemy);
 		
@@ -524,7 +528,7 @@ class MyScene extends Phaser.Scene {
 			let slimeTrap = this.physics.add.sprite(x,y, 'slime');
 			slimeTrap.setScale(slimeScale);
 			slimeTrap.body.immovable = true;
-			slimeTrap.setData('type', 'spikes');
+			slimeTrap.setData('type', 'slime');
 			slimeTrap.setData('health', slimeHealth);
 			slimeTrap.setData('handler', this.slimeHit);
 			
@@ -542,6 +546,9 @@ class MyScene extends Phaser.Scene {
 	
 	// add enemy collisions to new trap
 	addCollisionsToTrap(trap) {
+		if(trap === undefined)
+			return;
+		
 		let handler = trap.data.get('handler');
 		
 		for(var i=0; i<this.enemyGroups.length; i++) {
@@ -551,22 +558,28 @@ class MyScene extends Phaser.Scene {
 			let enemy = this.enemyGroups[i].enemy;
 			this.physics.add.overlap(trap, enemy, 
 				handler, 
-				()=>{return !enemy.data.get('hit')}
+				()=>{return !enemy.data.get('hitList')
+						.includes(trap.data.get('type'))}
 				, this);
 		}
 	}
 	
 	// add trap collisions to new enemy
 	addCollisionsToEnemy(enemy) {
+		if(enemy === undefined)
+			return;
+		
 		for(var i=0; i<this.curTraps.length; i++) {
 			if(this.curTraps[i] === undefined)
 				continue;
 			
 			let handler = this.curTraps[i].data.get('handler');
+			let type = this.curTraps[i].data.get('type');
 			
 			this.physics.add.overlap(this.curTraps[i], enemy, 
 				handler, 
-				()=>{return !enemy.data.get('hit')}
+				()=>{return !enemy.data.get('hitList')
+						.includes(type)}
 				, this);
 		}
 	}
@@ -575,8 +588,14 @@ class MyScene extends Phaser.Scene {
 	spikeHit(spike, enemy) {
 		console.log("Spike hit");
 		
-		this.despawnEnemy(enemy);
 		let curSpikeHealth = spike.data.get('health');
+		
+		// set enemy hit by trap
+		//console.log("hitList: ", enemy.data.get('hitList'));
+		enemy.setData('hit', true);
+		enemy.data.get('hitList').push('spikes');
+		
+		this.despawnEnemy(enemy);
 		
 		// check spike health
 		if(curSpikeHealth === 1) 
@@ -598,13 +617,15 @@ class MyScene extends Phaser.Scene {
 		console.log("Slime hit");
 		
 		// check if already hit by trap
-		if(enemy.data.get('hit') === true)
-			return;
+		/*if(enemy.data.get('hit') === true)
+			return;*/
 		
 		// set to hit  by trap
+		//console.log("hitList: ", enemy.data.get('hitList'));
 		enemy.setData('hit', true);
+		enemy.data.get('hitList').push('slime');
 		
-		// halve enemy speed
+		// slow enemy speed
 		enemy.body.velocity.x = enemy.body.velocity.x * slimeSlow;
 		enemy.body.velocity.y = enemy.body.velocity.y * slimeSlow;
 		
@@ -676,6 +697,9 @@ const game = new Phaser.Game({
 		}
 	},
 });
+
+
+
 
 
 
