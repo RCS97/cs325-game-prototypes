@@ -19,24 +19,30 @@ var curMoney = 0;
 var textStyle;
 var textStyle2;
 var textStyle3;
+var textStyle4;
 var headerStyle;
-var instr1;
-var instr2;
 
 var people = ['worker', 'guy', 'girl'];
 var items = ['towel','water','food'];
 var waitTime = 3000;	// longer = will wait more time before report
-var spawnRate = 300;	// lower = faster
-spawnRate = 100;
+var spawnRate = 100;	// lower = faster
+var spawnUpdateRate = 110;	// lower = spawn rate increases faster
+var enemySpeed = 120;
+var playerSpeed = 130;
 
 var winWidth = 800;
 var winHeight = 600;
 
-var towerStartHealth = 10;
+var towerStartHealth = 5;
+
 var spikesCost = 4;
 var spikesHealth = 2;
+var spikeScale = 0.07;
+
 var slimeCost = 2;
 var slimeHealth = 4;
+var slimeScale = 0.1;
+var slimeSlow = 0.25;
 
 
 
@@ -81,13 +87,15 @@ class MyScene extends Phaser.Scene {
 
 		// text styles
 		textStyle = { font: "20px Verdana", fill: "#FFF" };
-		textStyle2 = { font: "20px Verdana", fill: "#000" };
+		textStyle2 = { font: "15px Verdana", fill: "#000" };
 		textStyle3 = { font: "15px Verdana", fill: "#FFF" };
+		textStyle4 = { font: "20px Verdana", fill: "#FFF" };
 		headerStyle = { font: "10px Verdana", fill: "#00CC00" };
 
 		// objects
 		this.player = this.physics.add.sprite(400,300, 'player');
 		this.player.setScale(0.15);
+		this.player.setSize(40/0.15, 40/0.15);
 		
 		this.tower1 = this.physics.add.sprite(75,150, 'tower');
 		this.tower1.setScale(0.1);
@@ -95,7 +103,7 @@ class MyScene extends Phaser.Scene {
 		
 		this.tower1.setData('health', towerStartHealth);
 		this.tower1.setData('tower', 0);
-		this.t1Health = this.add.text(40, 100, "", textStyle3);
+		this.t1Health = this.add.text(40, 90, "", textStyle3);
 		this.t1Health.setText([
             'Health: ' + this.tower1.data.get('health')
         ]);
@@ -104,9 +112,9 @@ class MyScene extends Phaser.Scene {
 		this.tower2.setScale(0.1);
 		this.tower2.body.immovable = true;
 		
-		this.tower2.setData('health', towerStartHealth/10);
+		this.tower2.setData('health', towerStartHealth);
 		this.tower2.setData('tower', 1);
-		this.t2Health = this.add.text(40, 400, "", textStyle3);
+		this.t2Health = this.add.text(40, 390, "", textStyle3);
 		this.t2Health.setText([
             'Health: ' + this.tower2.data.get('health')
         ]);
@@ -138,8 +146,8 @@ class MyScene extends Phaser.Scene {
 		
 		
 		// UI
-		this.add.rectangle(400, 600, 800, 100, 0x000);
-		this.add.rectangle(400, 550, 800, 2, 0xFFFFFF);
+		let rect1 = this.add.rectangle(400, 600, 800, 100, 0x000);
+		let rect2 = this.add.rectangle(400, 550, 800, 2, 0xFFFFFF);
 		
 		const startBut = this.add.text(50, 560, 'Start', textStyle)
 			.setInteractive()
@@ -158,14 +166,14 @@ class MyScene extends Phaser.Scene {
 		
 		this.curTrap = '';
 		
-		let spikeX = 760;
+		let spikeX = 765;
 		this.spikeTrap = this.physics.add.sprite(spikeX,580, 'spikes').	setInteractive();
-		this.spikeTrap.setScale(0.07);
+		this.spikeTrap.setScale(spikeScale);
 		this.spikeTrap.on('pointerdown', this.spikesSelected, this);
 		
-		let slimeX = 670;
+		let slimeX = 675;
 		this.slimeTrap = this.physics.add.sprite(slimeX,580, 'slime').setInteractive();
-		this.slimeTrap.setScale(0.07);
+		this.slimeTrap.setScale(slimeScale);
 		this.slimeTrap.on('pointerdown', this.slimeSelected, this);
 		
 		
@@ -178,13 +186,35 @@ class MyScene extends Phaser.Scene {
 		let moneyHeader = this.add.text(380, heightHeader, 
 			"MONEY", headerStyle);
 			
-		this.spikesHeader = this.add.text(spikeX-20, heightHeader, 
-			"SPIKES ["+spikesCost+"]", headerStyle);
-		this.slimeHeader = this.add.text(slimeX-20, heightHeader, 
-			"SLIME ["+slimeCost+"]", headerStyle);
+		this.spikesHeader = this.add.text(spikeX-30, heightHeader, 
+			"SPIKES: "+spikesCost, headerStyle);
+		this.slimeHeader = this.add.text(slimeX-25, heightHeader, 
+			"SLIME: "+slimeCost, headerStyle);
 		
-		instr1 = this.add.text(20, 10, "Collect/give items with collision", textStyle2);
-		instr2 = this.add.text(20, 40, "Arrows to move", textStyle2);
+		this.instr1 = this.add.text(20, 10, "Eliminate enemies with collision", textStyle2);
+		this.instr2 = this.add.text(20, 30, "Select/place traps with mouse", textStyle2);
+		this.instr3 = this.add.text(20, 50, "Move with arrows", textStyle2);
+		
+		this.UIGroup = this.add.group();
+		let UIComps = [this.instr1,this.instr2,this.instr3,timeHeader,
+			moneyHeader,this.spikesHeader,this.slimeHeader,
+			this.spikeTrap,this.slimeTrap,time,money,
+			startBut,stopBut,rect1,rect2];
+		
+		
+		
+		// add UI components to upper z index
+		
+		//console.log(UIComps.length);
+		for(var i=0; i<UIComps.length; i++) {
+			//console.log(i);
+			this.UIGroup.add(UIComps[i]);
+		}
+			
+		var children = this.UIGroup.getChildren();
+        for (var i = 0; i < children.length; i++) {
+            children[i].setDepth(1);
+        }
     }
     
     update() {
@@ -204,9 +234,13 @@ class MyScene extends Phaser.Scene {
 					this.spawnEnemy();
 				}
 				
+				// increase spawn rate gradually
+				if(curTime % spawnUpdateRate === 0 && spawnRate >= 30) {
+					spawnRate -= 1;
+				}
 				
 				// player movement
-				let v = 150;
+				let v = playerSpeed;
 				// horizontal movement
 				if (this.cursors.left.isDown) {
 					this.player.flipX = false;
@@ -234,6 +268,8 @@ class MyScene extends Phaser.Scene {
 				// health depleted
 				isRunning = 0;
 				this.playerLost();
+				this.player.body.velocity.x = 0;
+				this.player.body.velocity.y = 0;
 			}
 		}
 
@@ -260,23 +296,36 @@ class MyScene extends Phaser.Scene {
 		//curHealth = 1000;
 		//curTime = 0;
 		//this.scene.restart();
+		this.physics.world.colliders.destroy();
+		
+		// stop enemy movement
+		for(var i=0; i<this.enemyGroups.length; i++) {
+			if(this.enemyGroups[i].enemy === undefined)
+				continue;
+			
+			this.enemyGroups[i].enemy.body.velocity.x = 0;
+			this.enemyGroups[i].enemy.body.velocity.y = 0;
+		}
 	}
 	
 	
 	// decrement health of tower hit
 	towerHit(enemy, tower) {
+		if(tower.data.get('health') <= 0)
+			return;
+		
 		tower.setData('health', tower.data.get('health')-1);
 		let towerIdx = tower.data.get('tower');
 		let towerHealth = tower.data.get('health');
 		
 		this.towerTexts[towerIdx].setText([
-            'Health: ' + towerHealth
+            'Health: ' + Math.max(towerHealth, 0)
         ]);
 		
 		this.despawnEnemy(enemy);
 		
 		// tower demolished, re-route enemies
-		if(towerHealth === 0) {
+		if(towerHealth <= 0) {
 			for(var i=0; i<this.enemyGroups.length; i++) {
 				this.setEnemyRoute(this.enemyGroups[i].enemy);
 			}
@@ -286,9 +335,6 @@ class MyScene extends Phaser.Scene {
 			let y = tower.y;
 			let fire = this.add.image(x, y, 'fire');
 			fire.setScale(0.2);
-			
-			let tow1Health = this.tower1.data.get('health');
-			let tow2Health = this.tower2.data.get('health');
 			
 			this.sound.play('fail', {volume: 0.3});
 		}
@@ -300,8 +346,9 @@ class MyScene extends Phaser.Scene {
 		let y = enemy.y;
 		let tower = Math.floor(Math.random() * 2);
 		
-		if(this.towers[0].data.get('health')===0 &&
-			this.towers[1].data.get('health')===0) {
+		// check if game over
+		if(this.towers[0].data.get('health')<=0 &&
+			this.towers[1].data.get('health')<=0) {
 			// no tower has health
 			console.log("Spawn denied");
 			enemy.body.velocity.x = 0;
@@ -309,7 +356,7 @@ class MyScene extends Phaser.Scene {
 			return -1;	
 		}
 		
-		if(this.towers[tower].data.get('health') === 0) {
+		if(this.towers[tower].data.get('health') <= 0) {
 			// no health, change towers
 			tower = tower===0 ? 1 : 0;
 		}
@@ -320,10 +367,10 @@ class MyScene extends Phaser.Scene {
 		let dy = ty - y;
 		let angle = Math.atan(dy / dx);
 		
-
-		let v = -100;
-		enemy.body.velocity.x = v * Math.cos(angle);
-		enemy.body.velocity.y = v * Math.sin(angle);
+		// set new speed and direction, considering if hit by slime
+		let v = enemy.data.get('hit') ? enemySpeed*slimeSlow : enemySpeed;
+		enemy.body.velocity.x = -v * Math.cos(angle);
+		enemy.body.velocity.y = -v * Math.sin(angle);
 		
 		return tower;
 	}
@@ -333,29 +380,42 @@ class MyScene extends Phaser.Scene {
 		//console.log("Spawn enemy");
 		
 		let x = 700;
-		let y = Math.floor(Math.random() * 400) + 50;
+		let yRange = 1000;
+		let y = Math.floor(Math.random() * yRange) - (yRange-600)/2;
 		
 		let enemy = this.physics.add.sprite(x,y, 'enemy');
 		enemy.setScale(0.14);
+		enemy.setData('hit', false);
 	
 		let tower = this.setEnemyRoute(enemy);
 		
+		// group enemy with initial tower to focus
 		var enemyGroup = {
 			enemy: enemy,
 			tower: tower
 		};
 		
-		enemy.setData('hit', false);
-		
 		this.enemyGroups.push(enemyGroup);
 		
+		// tower-enemy collisions
 		this.physics.add.collider(enemy, this.tower1, 
-			this.towerHit, null, this);
+			this.towerHit, 
+			()=>{
+				return this.tower1.data.get('health')>0
+			}, 
+			this);
 		this.physics.add.collider(enemy, this.tower2, 
-			this.towerHit, null, this);
+			this.towerHit, 
+			()=>{
+				return this.tower2.data.get('health')>0
+			}, 
+			this);
+			
+		// enemy-player collision
 		this.physics.add.overlap(this.player, enemy, 
 			this.enemyHit, null, this);
 			
+		// enemy-trap collisions
 		this.addCollisionsToEnemy(enemy)
 	}
 	
@@ -433,18 +493,20 @@ class MyScene extends Phaser.Scene {
 		let y = this.mouse.y;
 		console.log("BG clicked", this.curTrap);
 		
+		// check if able to place selected trap
 		if(this.curTrap === 'spikes' && curMoney>=spikesCost) {
+			// place spikes
 			this.updateMoney(curMoney-spikesCost);
 			console.log("spikes placed");
 			
 			let spikeTrap = this.physics.add.sprite(x,y, 'spikes');
-			spikeTrap.setScale(0.07);
+			spikeTrap.setScale(spikeScale);
 			spikeTrap.body.immovable = true;
 			spikeTrap.setData('type', 'spikes');
 			spikeTrap.setData('health', spikesHealth);
 			spikeTrap.setData('handler', this.spikeHit);
 			
-			let trapHealth = this.add.text(x, y+10, "", textStyle3);
+			let trapHealth = this.add.text(x-5, y+10, "", textStyle3);
 			trapHealth.setText([
 				''+spikesHealth
 			]);
@@ -455,17 +517,18 @@ class MyScene extends Phaser.Scene {
 			this.curTraps.push(spikeTrap);
 		}
 		else if(this.curTrap === 'slime' && curMoney>=slimeCost) {
+			// place slime
 			this.updateMoney(curMoney-slimeCost);
 			console.log("slime placed");
 			
 			let slimeTrap = this.physics.add.sprite(x,y, 'slime');
-			slimeTrap.setScale(0.07);
+			slimeTrap.setScale(slimeScale);
 			slimeTrap.body.immovable = true;
 			slimeTrap.setData('type', 'spikes');
 			slimeTrap.setData('health', slimeHealth);
 			slimeTrap.setData('handler', this.slimeHit);
 			
-			let trapHealth = this.add.text(x, y+10, "", textStyle3);
+			let trapHealth = this.add.text(x-3, y+10, "", textStyle3);
 			trapHealth.setText([
 				''+slimeHealth
 			]);
@@ -485,8 +548,11 @@ class MyScene extends Phaser.Scene {
 			if(this.enemyGroups[i].enemy === undefined)
 				continue;
 			
-			this.physics.add.overlap(trap, this.enemyGroups[i].enemy, 
-				handler, null, this);
+			let enemy = this.enemyGroups[i].enemy;
+			this.physics.add.overlap(trap, enemy, 
+				handler, 
+				()=>{return !enemy.data.get('hit')}
+				, this);
 		}
 	}
 	
@@ -499,7 +565,9 @@ class MyScene extends Phaser.Scene {
 			let handler = this.curTraps[i].data.get('handler');
 			
 			this.physics.add.overlap(this.curTraps[i], enemy, 
-				handler, null, this);
+				handler, 
+				()=>{return !enemy.data.get('hit')}
+				, this);
 		}
 	}
 	
@@ -537,8 +605,8 @@ class MyScene extends Phaser.Scene {
 		enemy.setData('hit', true);
 		
 		// halve enemy speed
-		enemy.body.velocity.x = enemy.body.velocity.x/2;
-		enemy.body.velocity.y = enemy.body.velocity.y/2;
+		enemy.body.velocity.x = enemy.body.velocity.x * slimeSlow;
+		enemy.body.velocity.y = enemy.body.velocity.y * slimeSlow;
 		
 		let curSlimeHealth = slime.data.get('health');
 		
@@ -568,11 +636,26 @@ class MyScene extends Phaser.Scene {
 	// notify player that they have lost/ended the game
 	playerLost() {
 		console.log("GAME OVER");
-		//let fired = this.add.image(400, 150, 'fired');
-		let gameOver = this.add.image(400, 150, 'gameover');
+		this.physics.world.colliders.destroy();
+		
+		// remove traps
+		for(var i=0; i<this.enemyGroups.length; i++) {
+			//this.physics.world.disable(this.enemyGroups[i].enemy);
+			this.enemyGroups[i].enemy.body.enable = false;
+		}
+		
+		// game over display
+		
+		let gameOver = this.add.image(400, 170, 'gameover');
+		gameOver.setScale(1.2);
+		
+		let shadow = this.add.sprite(400, 170, 'gameover');
+		shadow.tint = 0x000000;
+		shadow.alpha = 0.2;
 		
 		let overStr = "TIME LASTED: "+curTime/100;
-		let overText = this.add.text(300, 300, overStr, textStyle2);
+		let overText = this.add.text(300, 300, overStr, textStyle4);
+		overText.setShadow(2,2, "#000", 1, true, true);
 	}
 	
 }
