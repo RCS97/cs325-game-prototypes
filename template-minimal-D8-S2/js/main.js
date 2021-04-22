@@ -25,9 +25,10 @@ var headerStyle;
 var people = ['worker', 'guy', 'girl'];
 var items = ['towel','water','food'];
 var waitTime = 3000;	// longer = will wait more time before report
-var spawnRate = 180;	// lower = faster
+var spawnRate = 200;	// lower = faster
 var startSpawnRate = spawnRate;
-var spawnUpdateRate = 140;	// lower = spawn rate increases faster
+var fastestSpawnRate = 20;
+var spawnUpdateRate = 150;	// lower = spawn rate increases faster
 var enemySpeed = 100;
 var playerSpeed = 130;
 
@@ -236,7 +237,8 @@ class MyScene extends Phaser.Scene {
 				}
 				
 				// increase spawn rate gradually
-				if(curTime % spawnUpdateRate === 0 && spawnRate >= 30) {
+				if(curTime % spawnUpdateRate === 0 
+					&& spawnRate >= fastestSpawnRate) {
 					spawnRate -= 1;
 				}
 				
