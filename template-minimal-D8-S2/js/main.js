@@ -1,9 +1,11 @@
 
 /*
- * CS 325 - Digital Assignment 5
- *		Title: 
+ * CS 325 - Digital Assignment 8
+ *		Title: Spartan Showdown
  *
  */
+ 
+ 
 
 import "./phaser.js";
 
@@ -684,7 +686,7 @@ class MyScene extends Phaser.Scene {
 		shadow.tint = 0x000000;
 		shadow.alpha = 0.2;
 		
-		let overStr = "TIME LASTED: "+(curTime+1)/100;
+		let overStr = "TIME LASTED: "+(curTime)/100;
 		let overText = this.add.text(300, 300, overStr, textStyle4);
 		overText.setShadow(2,2, "#000", 1, true, true);
 	}
