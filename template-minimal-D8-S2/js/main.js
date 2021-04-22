@@ -240,6 +240,9 @@ class MyScene extends Phaser.Scene {
 				if(curTime % spawnUpdateRate === 0 
 					&& spawnRate >= fastestSpawnRate) {
 					spawnRate -= 1;
+					
+					if(spawnRate === fastestSpawnRate)
+						console.log("MAX DIFFICULTY: ", (curTime+1)/100);
 				}
 				
 				// player movement
@@ -280,7 +283,7 @@ class MyScene extends Phaser.Scene {
 
 	// reset scene, then start timer and set to running
 	startButton() {
-		console.log("Game started");
+		console.log('Game started');
 		isRunning = 1;
 		
 		curTime = 0;
@@ -316,6 +319,7 @@ class MyScene extends Phaser.Scene {
 	
 	// decrement health of tower hit
 	towerHit(enemy, tower) {
+		//console.log("Tower hit");
 		if(tower.data.get('health') <= 0)
 			return;
 		
@@ -340,9 +344,13 @@ class MyScene extends Phaser.Scene {
 			let y = tower.y;
 			let fire = this.add.image(x, y, 'fire');
 			fire.setScale(0.2);
-			
-			this.sound.play('fail', {volume: 0.3});
 		}
+		
+		// play audio
+		if(towerHealth <= 0)
+			this.sound.play('fail', {volume: 0.4});
+		else 
+			this.sound.play('fail', {volume: 0.1});
 	}
 	
 	// sets enemy trajectory based on randomness and tower statuses
@@ -588,7 +596,7 @@ class MyScene extends Phaser.Scene {
 	
 	// register enemy hitting spike
 	spikeHit(spike, enemy) {
-		console.log("Spike hit");
+		//console.log("Spike hit");
 		
 		let curSpikeHealth = spike.data.get('health');
 		
@@ -616,7 +624,7 @@ class MyScene extends Phaser.Scene {
 	
 	// register slime hit
 	slimeHit(slime, enemy) {
-		console.log("Slime hit");
+		//console.log("Slime hit");
 		
 		// check if already hit by trap
 		/*if(enemy.data.get('hit') === true)
@@ -676,7 +684,7 @@ class MyScene extends Phaser.Scene {
 		shadow.tint = 0x000000;
 		shadow.alpha = 0.2;
 		
-		let overStr = "TIME LASTED: "+curTime/100;
+		let overStr = "TIME LASTED: "+(curTime+1)/100;
 		let overText = this.add.text(300, 300, overStr, textStyle4);
 		overText.setShadow(2,2, "#000", 1, true, true);
 	}
