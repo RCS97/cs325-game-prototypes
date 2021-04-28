@@ -51,7 +51,7 @@ var slimeSlow = 0.25;
 var bombCost = 8;
 var bombScale = 0.06;
 var bombTime = 100;
-var bombRadius = 150;
+var bombRadius = 200;
 
 
 
